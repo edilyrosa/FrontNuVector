@@ -1,7 +1,7 @@
 import React from "react";
 
-function CrudTableRow({ registro, setRegistroToEdict, deleteRegistro }) {
-  let { client_id, name, description, active, id } = registro; //Destructuramos
+function CrudTableRow({ projectRegister, setRegistroToEdict, deleteRegistro }) {
+  let { client_id, name, description, active, id } = projectRegister; //Destructuramos
   return (
     <tr>
       <td>{client_id}</td>
@@ -11,7 +11,7 @@ function CrudTableRow({ registro, setRegistroToEdict, deleteRegistro }) {
       <td>
         <button
           onClick={() => {
-            setRegistroToEdict(registro); //!Deja de ser NULL
+            setRegistroToEdict(projectRegister); //!Deja de ser NULL
           }}
         >
           Edit

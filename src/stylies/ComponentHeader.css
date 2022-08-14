@@ -10,7 +10,7 @@ main {
 .header {
   margin: auto;
   padding: 0.5rem 3rem;
-  background-color: rgb(245, 234, 238);
+  background-color: rgb(65, 229, 231);
   position: fixed;
   top: 0;
   flex: 1 1 100vw;

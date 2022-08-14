@@ -1,54 +1,4 @@
-html {
-  box-sizing: border-box;
-  font-size: 11px;
-  font-family: sans-serif;
-}
-
-*,
-*::after,
-*::before {
-  box-sizing: inherit;
-}
-
-body {
-  margin-left: 0px;
-  padding: 10px;
-  background: rgb(245, 234, 238);
-  color: #1e1e1f;
-  font-family: "Montserrat", sans-serif;
-  min-height: 100vh;
-  flex-direction: column;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-#root {
-  padding-left: 20px;
-  padding-right: 20px;
-  margin: 0 24px;
-  position: relative;
-  max-width: 100%;
-  --primary-color: rgb(81, 14, 37);
-  --header-color: rgb(211, 57, 116);
-}
-
-input[type="text"],
-input[type="textarea"] {
-  border: thin solid #dedede;
-  border-radius: 0.25rem;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  outline: none;
-  display: block;
-  width: 100%;
-  font-size: 1rem;
-  line-height: 1;
-  background-color: transparent;
-}
-
-button,
-input[type="submit"],
-input[type="reset"] {
+button {
   border: thin solid #444;
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
@@ -113,18 +63,18 @@ h1 {
   text-align: center;
   color: var(--primary-color);
   max-width: 100%;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
 }
 
 h2 {
   text-align: center;
   color: var(--primary-color);
   max-width: 100%;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
 }
 
 h3 {
-  font-size: 1rem;
+  font-size: 1.5rem;
   text-align: center;
   font-weight: 100;
   color: var(--primary-color);

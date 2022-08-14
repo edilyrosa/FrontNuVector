@@ -1,34 +1,36 @@
 import React from "react";
 import CrudTableRow from "./CrudTableRow";
+import "../stylies/ComponentTable.css";
 
-function CrudTable({ data, setRegistroToEdict, deleteRegistro }) {
+function CrudTable({ dataProjects, setRegistroToEdict, deleteRegistro }) {
+  console.log(dataProjects);
   return (
     <div>
-      <h3>Datos del Usuario</h3>
+      <h4>Project's Data</h4>
       <table>
         <thead>
           <tr>
-            <th>Nombre</th>
-            <th>Comentario</th>
-            <th>Pais</th>
-            <th>Forma de Pago</th>
-            <th>Terminos</th>
-            <th>Acciones</th>
+            <th>Id</th>
+            <th>Project's Name</th>
+            <th>Project's Client</th>
+            <th>Project's Description</th>
+            <th>Actve</th>
+            <th>Accions</th>
           </tr>
         </thead>
 
         <tbody>
-          {data.length === 0 ? (
+          {dataProjects.length === 0 ? (
             <tr>
-              <td colSpan="6">Sin datos</td>
+              <td colSpan="6">Without Projects</td>
             </tr>
           ) : (
-            data.map((el) => (
+            dataProjects.map((el) => (
               <CrudTableRow
                 key={el.id}
-                registro={el}
+                projectRegister={el}
                 setRegistroToEdict={setRegistroToEdict}
-                deleteRegistro={deleteRegistro} //?PUDO HABER SIDO ASI TAMB deleteRegistro(el.id) PASANDOLE DE UNA EL ID DEL ELEMENTO
+                deleteRegistro={deleteRegistro}
               />
             ))
           )}

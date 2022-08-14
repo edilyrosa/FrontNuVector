@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // en ves de <a> usamos este
 import "../stylies/ComponentHeader.css";
-import volvoicon from "../assets/faviconVOLVO.ico";
+import nuVectorIcon from "../assets/nuVector_favicon.ico";
 
 function Header(props) {
   return (
@@ -9,9 +9,9 @@ function Header(props) {
         <header className="header-content header">
           <section>
             <article className="logo">
-              <img src={volvoicon} alt="volvo" />
+              <img src={nuVectorIcon} alt="nuVector" />
             </article>
-            <span>Manager VOLVO App</span>
+            <span>Manager Nuvector App</span>
           </section>
 
           <ul className="menu">
@@ -23,17 +23,17 @@ function Header(props) {
               <Link to="./clients">Your Clients 🔽</Link>
               <ul>
                 <li>
-                  <Link className="sonAssets sonAssets1" to="./FormAddAsset">
+                  <Link className="sonAssets sonAssets1" to="./client">
                     Add a new Client
                   </Link>
                 </li>
                 <li>
-                  <Link className="sonAssets sonAssets2" to="./ProjectForm">
+                  <Link className="sonAssets sonAssets2" to="./clients">
                     Show details Client's one
                   </Link>
                 </li>
                 <li>
-                  <Link className="sonAssets sonAssets2" to="./ProjectForm">
+                  <Link className="sonAssets sonAssets2" to="./clients">
                     Show all the Clients
                   </Link>
                 </li>
@@ -44,17 +44,17 @@ function Header(props) {
               <Link to="./projects">Your Projects 🔽</Link>
               <ul>
                 <li>
-                  <Link className="sonAssets sonAssets1" to="./FormAddAsset">
+                  <Link className="sonAssets sonAssets1" to="./form-project">
                     Add a new Project
                   </Link>
                 </li>
                 <li>
-                  <Link className="sonAssets sonAssets2" to="./ProjectForm">
+                  <Link className="sonAssets sonAssets2" to="./table-project">
                     Show details Project's one
                   </Link>
                 </li>
                 <li>
-                  <Link className="sonAssets sonAssets2" to="./ProjectForm">
+                  <Link className="sonAssets sonAssets2" to="./table-project">
                     Show all the Projects
                   </Link>
                 </li>

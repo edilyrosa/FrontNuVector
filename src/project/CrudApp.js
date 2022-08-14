@@ -1,105 +1,105 @@
 import React, { useEffect, useState } from "react";
-import { helpHttp } from "../helpers/HelpHttp";
 import FormProject from "./FormProject";
 import Message from "../helpers/Message";
 import Loader from "../helpers/Loader";
 import CrudTable from "./CrudTable";
 
-function CrudApp({ form: FormComponent }) {
-  const [BBDD, setBBDD] = useState(null); //Comprende un array de objs
-  const [clients, setClients] = useState([]); //!TRAERME registros clients
-  const [registroToEdict, setRegistroToEdict] = useState(null);
+function CrudApp() {
+  const [projectsDB, setProjectsDB] = useState(null); //Array ProjectDB from DB
+  const [registroToEdict, setRegistroToEdict] = useState(null); //Flag-Project
   //?Para la < CrudTable quien es la que se RENDERIZA continuamente, el <Form no
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  let api = helpHttp();
-  let urlProjects = "http://localhost:5000/project";
-  let urlClients = "http://localhost:3000/api/ApiFake.json"; //todo: debe ser clients
-
+  //!Get la BBDD de los projectos
   useEffect(() => {
-    setLoading(true); //Pinto el loader
-    helpHttp()
-      .get(urlClients)
-      .then((res) => {
-        //Ya viene en TDD Json
-        //Obtengo la res exitosa o no
-        if (!res.err) {
-          //err es una bandera de error = true
-          setBBDD(res); //obj res exitoso y la meto en BBDD
-          setError(null); //No hay error
-        } else {
-          setBBDD(null);
-          setError(res);
-        }
-        setLoading(false); //!lo cierro aca, antes de saalir del then() asincrono. La  cerrada del lauder se dara cuando se obtenga la respuesta q es TARDIA, exitosa o no, pq si no hago depues, seria una accion sincrona, se borraria el loader antes de obtener la promesa.
+    setLoading(true); //show loader
+    fetch("http://localhost:5000/project") //Do Req
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((json) => {
+        console.log(json);
+        setProjectsDB(json); //Set the ProjectsDB
+        setError(null); // Isn't error
+        setLoading(false); //Loader off
+      })
+      .catch((err) => {
+        setProjectsDB(null);
+        setError(err);
       });
-  }, [urlProjects]);
+  }, []);
 
-  useEffect(() => {
-    setLoading(true); //Pinto el loader
-
-    helpHttp()
-      .get(urlClients)
-      .then((res) => {
-        //Ya viene en TDD Json
-        //Obtengo la res exitosa o no
-        if (!res.err) {
-          //err es una bandera de error = true
-          setClients(res); //obj res exitoso y la meto en BBDD
-          setError(null); //No hay error
-        } else {
-          setClients(null);
-          setError(res);
-        }
-        setLoading(false); //!lo cierro aca, antes de saalir del then() asincrono. La  cerrada del lauder se dara cuando se obtenga la respuesta q es TARDIA, exitosa o no, pq si no hago depues, seria una accion sincrona, se borraria el loader antes de obtener la promesa.
-      });
-  }, [urlClients]);
-
-  //*Metodo llamado por hijo <FormCrud.js oyente de onSumbit
+  //!Postea en la BBDD un project. Metoh executed by son <FormProject.js listener of onSumbit
   const createRegistro = (registro) => {
-    //Parametro registro es el obj de info inputs.
-    registro.id = Date.now(); //Le asignamos un ID guardaremos en BBDD
+    //Parametro registro es el obj registro del from.
+    //TODO:  registro.id = Date.now(); //Le asignamos un ID guardaremos en clientsDB AUTOMATICO???
     let options = {
-      body: registro,
-      headers: { "content-type": "application/json" },
+      method: "POST",
+      body: JSON.stringify(registro), //!aca va el registro  a postear
+      headers: {
+        "content-type": "application/json",
+        // acept: "application/json",
+      },
     };
-    api.post(urlProjects, options).then((res) => {
-      console.log(res);
-      res.err ? setError(res) : setBBDD([...BBDD, res]);
-      //!Si existe en true la propiedad err del obj res, es pq hay un error, el cual se pintara en el componente <Mensaje
-      //? Si no existe err=true, mesclamos la BBDD con la res promesa del fetch del metodo post().
-    });
+    setLoading(true); //Pinto el loader
+    fetch("http://localhost:5000/project", options)
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((json) => {
+        setProjectsDB([...projectsDB, json]);
+        console.log(`Has sent the Project ${json}`);
+      })
+      .catch((err) => {
+        setError(err);
+      });
   };
 
   //*Metodo llamado por Hijo <FormCrud.js oyente de onSubmit
   const updateRegistro = (registro) => {
     //Parametro registro es el obj de info inputs a EDITAR.
-    //?Recorremos cada obj de Array BBDD, cuando halle la coincidencia de ID, le asignara el registro EDITADO a ese ID, que le pertenece y se hace la actualizacion de info de ese registro..
+    //?Recorremos cada obj de Array clientsDB, cuando halle la coincidencia de ID, le asignara el registro EDITADO a ese ID, que le pertenece y se hace la actualizacion de info de ese registro..
 
-    let endPoint = `${urlProjects}/${registro.id}`;
     let options = {
-      body: registro,
-      headers: { "content-type": "application/json" },
+      method: "PUT",
+      body: JSON.stringify(registro), //!aca va el registro  a postear
+      headers: {
+        "content-type": "application/json",
+        //acept: "application/json",
+      },
     };
-    api.put(endPoint, options).then((res) => {
-      let nuevaBBDD = BBDD.map((el) => (el.id === res.id ? res : el));
-      res.err ? setError(res) : setBBDD(nuevaBBDD);
-    });
+    fetch(`http://localhost:5000/project/${registro.id}`, options)
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((json) => {
+        let newProjectDB = projectsDB.map((el) =>
+          el.id === json.id ? json : el
+        );
+        setProjectsDB(newProjectDB);
+        console.log(`Has updated the Project ${json}`);
+      })
+      .catch((err) => {
+        setError(err);
+      });
   };
 
   //*Metodo llamado por hijo < CrudTable.js oyente con el boton "Eliminar"
   const deleteRegistro = (id) => {
     let isDelete = window.confirm(`Desea borrar el registro con ID = ${id}`);
     if (isDelete) {
-      let endPoind = `${urlProjects}/${id}`;
       let options = {
-        headers: { "content-type": "application/json" },
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          //acept: "application/json",
+        },
       };
-      api.del(endPoind, options).then((res) => {
-        let nuevaBBDD = BBDD.filter((el) => el.id !== id);
-        res.err ? setError(res) : setBBDD(nuevaBBDD);
-      });
+      fetch(`http://localhost:5000/project/${id}`, options)
+        .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+        .then((json) => {
+          let newProjectDB = projectsDB.filter((el) => el.id !== id);
+          setProjectsDB(newProjectDB);
+          console.log(`Has DETELE the Project ${json}`);
+        })
+        .catch((err) => {
+          setError(err);
+        });
     } else {
       return;
     }
@@ -109,11 +109,11 @@ function CrudApp({ form: FormComponent }) {
       <h2>CRUD PROJECT</h2>
       <article className="grid-1-2">
         {/* */}
-        <FormComponent
-          create={createRegistro}
-          update={updateRegistro}
-          recordToEdit={registroToEdict}
-          setRecordToEdit={setRegistroToEdict}
+        <FormProject
+          createRegistro={createRegistro}
+          updateRegistro={updateRegistro}
+          registroToEdict={registroToEdict}
+          setRegistroToEdict={setRegistroToEdict}
         />
 
         {loading && <Loader />}
@@ -123,11 +123,11 @@ function CrudApp({ form: FormComponent }) {
             bgColor={"#dc3545"}
           />
         )}
-        {BBDD && (
+        {projectsDB && (
           <CrudTable
-            BBDD={BBDD}
             setRegistroToEdict={setRegistroToEdict}
             deleteRegistro={deleteRegistro}
+            dataProjects={projectsDB}
           />
         )}
       </article>
