@@ -1,0 +1,100 @@
+form * {
+  margin-bottom: 0.75rem;
+}
+form {
+  border: 1px solid rosybrown;
+  padding: 2px;
+}
+
+input[type="text"],
+textarea {
+  font-family: sans-serif;
+  border: thin solid rosybrown;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  outline: none;
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1;
+  background-color: transparent;
+}
+
+button,
+input[type="submit"],
+input[type="reset"] {
+  border: thin solid #444;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem 0 0;
+  display: inline-block;
+  background-color: #eee;
+  color: #444;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1;
+  text-transform: none;
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+hr {
+  margin: 2rem auto;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  text-align: center;
+  padding: 0.5rem;
+  border-bottom: thin solid #dedede;
+}
+
+@media screen and (min-width: 1024px) {
+  .grid-1-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 2rem;
+  }
+}
+
+.divForm {
+  padding-top: 20px;
+}
+
+select,
+input[type="checkbox"],
+input[type="radio"] {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: block;
+}
+
+input[type="submit"],
+input[type="reset"] {
+  width: 20%;
+  height: 30px;
+  display: inline-block;
+}
+
+input[type="submit"] {
+  margin-left: 30%;
+}
+
+p {
+  color: var(--primary-color);
+}
+
+.damaged {
+  color: red;
+}

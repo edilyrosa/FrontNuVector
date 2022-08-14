@@ -1,0 +1,40 @@
+.ModalBackground {
+  background-image: url(../assets/modalHome.webp);
+  position: fixed;
+  top: 20rem;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  margin: 5px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  flex: 1 1 100vw;
+}
+
+.ModalBackground:hover {
+  transition: 1s;
+  opacity: 0.75;
+}
+
+p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  display: block;
+}
+
+span {
+  color: var(--primary-color);
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}

@@ -1,0 +1,51 @@
+{
+  "clientsFake": [
+    {
+      "id": 1,
+      "name": "Mercedes",
+      "city": "Caracas",
+      "state": "Caracas",
+      "country": "VE",
+      "industry_codes": "2001",
+      "active": "yes"
+    },
+    {
+      "id": 2,
+      "name": "Volvo",
+      "city": "Caracas",
+      "state": "Caracas",
+      "country": "VE",
+      "industry_codes": "2001",
+      "active": "yes"
+    },
+    {
+      "id": 3,
+      "name": "Ford",
+      "city": "Caracas",
+      "state": "Caracas",
+      "country": "VE",
+      "industry_codes": "2001",
+      "active": "yes"
+    },
+
+    {
+      "id": 4,
+      "name": "Kia",
+      "city": "Caracas",
+      "state": "Caracas",
+      "country": "VE",
+      "industry_codes": "2001",
+      "active": "yes"
+    },
+
+    {
+      "id": 5,
+      "name": "Cocacola",
+      "city": "Los Angeles",
+      "state": "Califormia",
+      "country": "USA",
+      "industry_codes": "2001",
+      "active": "yes"
+    }
+  ]
+}
