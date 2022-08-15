@@ -3,8 +3,11 @@ form * {
   padding: 0.5rem;
 }
 form {
+  padding: 2rem;
   border: 1px solid rosybrown;
-  padding: 1rem;
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 input[type="text"],
@@ -19,14 +22,14 @@ textarea {
   width: 100%;
   font-size: 1.5rem;
   line-height: 1;
-  background-color: transparent;
+  background-color: white;
   font-family: inherit;
 }
 
 button,
 input[type="submit"],
 input[type="reset"] {
-  border: thin solid #444;
+  border: medium solid rosybrown;
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
   margin: 0 0.5rem 0 0;
@@ -80,7 +83,7 @@ input[type="radio"] {
   margin-right: auto;
   text-align: center;
   display: block;
-  background-color: transparent;
+  background-color: white;
   border: medium solid rosybrown;
   font-family: inherit;
 }
@@ -134,4 +137,8 @@ p {
   font-size: 1rem;
   overflow: auto;
   color: var(--primary-color);
+}
+
+.sonAssets2 {
+  color: red;
 }

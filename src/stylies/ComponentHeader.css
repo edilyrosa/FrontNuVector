@@ -9,8 +9,8 @@ main {
 
 .header {
   margin: auto;
-  padding: 0.5rem 3rem;
-  background-color: rgb(65, 229, 231);
+  padding: 1rem 10rem;
+  background-color: rgb(4, 21, 73);
   position: fixed;
   top: 0;
   flex: 1 1 100vw;
@@ -24,7 +24,7 @@ main {
   justify-content: first baseline;
   align-items: baseline;
   width: 100vw;
-  margin-left: -25px;
+  margin-left: -8rem;
 }
 
 .container {
@@ -46,10 +46,15 @@ main {
 }
 
 .menu a {
+  /* color: var(--header-color); */
   color: var(--header-color);
   padding: 0 1vw;
   transition: all 0.3s easy-in-out;
   font-weight: bold;
+  font-size: 1.3rem;
+}
+.titleLogo {
+  color: var(--header-color);
 }
 
 .menu a:hover {
@@ -99,7 +104,7 @@ li {
 .menu li:hover ul {
   transition: 5s;
   display: inline-block;
-  background-color: rgb(245, 228, 236);
+  background-color: rgb(76, 85, 113, 0.9);
 }
 
 .sonAssets1,
@@ -115,5 +120,5 @@ li {
 span {
   font-size: 1rem;
   font-weight: bold;
-  color: var(--header-color);
+  /* color: var(--header-color); */
 }

@@ -1,5 +1,7 @@
 .ModalBackground {
-  background-image: url(../assets/modalHome.webp);
+  /* background-image: url(../assets/modalHome.webp); */
+  /* background-image: url(../assets/tech.jpg); */
+  background-image: url(../assets/techTwo.jpg);
   position: fixed;
   top: 20rem;
   left: 0px;
@@ -9,7 +11,6 @@
   justify-content: center;
   align-items: center;
   color: white;
-
   margin: 5px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -37,4 +38,9 @@ h1 {
   font-size: 3rem;
   font-weight: bold;
   color: var(--primary-color);
+}
+
+li,
+ul {
+  font-size: 1.4rem;
 }

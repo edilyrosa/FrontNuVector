@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"; // en ves de <a> usamos este
 import "../stylies/ComponentHeader.css";
 import nuVectorIcon from "../assets/nuVector_favicon.ico";
+import {} from "../index.css";
 
 function Header(props) {
   return (
@@ -11,7 +12,7 @@ function Header(props) {
             <article className="logo">
               <img src={nuVectorIcon} alt="nuVector" />
             </article>
-            <span>Manager Nuvector App</span>
+            <span className="titleLogo">Manager Nuvector App</span>
           </section>
 
           <ul className="menu">
@@ -33,7 +34,7 @@ function Header(props) {
                   </Link>
                 </li>
                 <li>
-                  <Link className="sonAssets sonAssets2" to="./clients">
+                  <Link className="sonAssets sonAssets2" to="./form-client">
                     Show all the Clients
                   </Link>
                 </li>
@@ -63,7 +64,7 @@ function Header(props) {
 
             <li>
               {" "}
-              <Link to="./TableTaskEnties">The task entries 🔽</Link>
+              <Link to="./TableTaskEnties">Your task entries 🔽</Link>
               <ul>
                 <li>
                   <Link className="sonAssets sonAssets1" to="./FormAddAsset">
@@ -85,7 +86,7 @@ function Header(props) {
 
             <li>
               {" "}
-              <Link to="./Gaphs">Show status Project/Time</Link>
+              <Link to="./Graphs">Status Project/Time Graphs</Link>
             </li>
             <li>
               <a

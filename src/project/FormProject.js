@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // en ves de <a> usamos este
 import { createRegistro, updateRegistro } from "../helpers/CrudFuncions";
+import { URL_CLIENT, URL_PROJECT } from "../helpers/ApiURL";
 import Message from "../helpers/Message";
 import "../stylies/ComponentForm.css";
 import "../index";
@@ -22,7 +24,7 @@ function FormProject() {
 
   //!get CLIENTS' table
   useEffect(() => {
-    fetch("http://localhost:5000/client")
+    fetch(URL_CLIENT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         console.log(json);
@@ -31,10 +33,10 @@ function FormProject() {
       .catch((err) => console.log(err));
   }, []);
 
-  //!Get PROJECTS' table
+  //!Get PROJECTS' table  in the VE [projectsDB
   useEffect(() => {
     setLoading(true); //show loader
-    fetch("http://localhost:5000/project") //Do Req
+    fetch(URL_PROJECT) //Do Req
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         console.log(json);
@@ -98,13 +100,20 @@ function FormProject() {
           >
             {clients.map((client) => (
               <option value={client.id}>
-                {client.name} - {client.id}{" "}
+                <p>
+                  Client's Name: {client.name} ⇒ ID: {client.id}
+                </p>
               </option>
             ))}
           </select>
         </label>
+        <h4>
+          If your client is new, it's not in the list. Just add it, clicking
+          <Link className="sonAssets sonAssets2" to="./form-client">
+            <i>here</i>
+          </Link>
+        </h4>
         <br />
-
         <input
           type="text"
           name="name"
@@ -115,7 +124,7 @@ function FormProject() {
 
         <textarea
           name="description"
-          placeholder="Write project's description"
+          placeholder="Project's description"
           autoComplete="on"
           minLength={15}
           maxLength={140}
