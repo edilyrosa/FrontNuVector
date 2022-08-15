@@ -1,21 +1,123 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { createRegistro, updateRegistro } from "../helpers/CrudFuncions";
-import { URL_CLIENT, URL_PROJECT } from "../helpers/ApiURL";
+import {
+  createRegistro,
+  updateRegistro,
+  deleteRegistro,
+} from "../helpers/CrudFuncions";
+import {
+  URL_CLIENT,
+  URL_PROJECT,
+  URL_PROJECT_MORE_ID,
+} from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../stylies/ComponentForm.css";
 import "../index";
 
+function TableListProject({ setForm, setRegistroToEdict, registroToEdict }) {
+  const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  //!Get PROJECTS' table in the VE ProjectsDB
+  useEffect(() => {
+    //setLoading(true); //show loader
+    fetch(URL_PROJECT) //Do Req
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((json) => {
+        setProjectsDB(json); //Set the ProjectsDB
+        setError(null); // Isn't error
+        //setLoading(false); //Loader off
+      })
+      .catch((err) => {
+        setProjectsDB(null);
+        setError(err);
+      });
+  }, [projectsDB]);
+
+  return (
+    <div>
+      <h1>CHOOSE THE PROJECT TO UPDATE OR DELETE.</h1>
+      {loading && <Loader />}
+      {error && (
+        <Message
+          msj={`Error: ${error.status}: ${error.statusText}`}
+          bgColor={"#dc3545"}
+        />
+      )}
+      <table>
+        <thead>
+          <tr>
+            <th>Project's id</th>
+            <th>Project's Name</th>
+            <th>Project's Client</th>
+            <th>Project's Description</th>
+            <th>Active</th>
+            <th>Accions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {projectsDB === 0 ? (
+            <tr>
+              <td colSpan={6}>vacia</td>
+            </tr>
+          ) : (
+            projectsDB.map((el) => (
+              <tr key={el.id}>
+                <td>{el.id}</td>
+                <td>{el.name}</td>
+                <td>{el.client_id}</td>
+                <td>{el.description}</td>
+                <td>{el.active ? "Yes" : "No"}</td>
+                <td className="buttonList">
+                  <button
+                    onClick={(e) => {
+                      setRegistroToEdict(el); //!Deja de ser NULL, cambia titulo
+                      setForm(el);
+                      console.log(el);
+                      //TODO: window.scrollTo = "0px";
+                    }}
+                  >
+                    Update
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      deleteRegistro(
+                        `${URL_PROJECT_MORE_ID}${el.id}`,
+                        el.id,
+                        el,
+                        projectsDB,
+                        setProjectsDB,
+                        setError
+                      );
+                      window.location.reload();
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+      ;
+    </div>
+  );
+}
+
 const initialDB = {
   id: null,
-  client_id: "", //se nutre de un Dropdown que es un JSON [{},{}], pero finalmente captura solo el codigo
+  client_id: "",
   name: "",
   description: "",
   active: "",
 };
 
-function FormProject() {
+function CrudFormListProject() {
   const [form, setForm] = useState(initialDB);
   const [clients, setClients] = useState([]);
   const [projectsDB, setProjectsDB] = useState(null); //Array ProjectDB from DB
@@ -25,27 +127,26 @@ function FormProject() {
 
   //!get CLIENTS' table
   useEffect(() => {
-    setLoading(true); //show loader
+    //setLoading(true); //show loader
     fetch(URL_CLIENT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
-        console.log(json);
         setClients(json);
-        setLoading(false); //show loader
+        //setLoading(false); //show loader
       })
       .catch((err) => console.log(err));
   }, []);
 
-  //!Get PROJECTS' table  in the VE [projectsDB
+  //!Get PROJECTS' table  in the VE ProjectsDB
   useEffect(() => {
     setLoading(true); //show loader
     fetch(URL_PROJECT) //Do Req
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
-        console.log(json);
         setProjectsDB(json); //Set the ProjectsDB
         setError(null); // Isn't error
         setLoading(false); //Loader off
+        console.log();
       })
       .catch((err) => {
         setProjectsDB(null);
@@ -78,15 +179,22 @@ function FormProject() {
         projectsDB,
         setError
       );
+      //TODO: REDIRECCION AL FINAL DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
 
       //!With ID, is flag to make the UPDATE()
     } else {
-      updateRegistro(URL_PROJECT, form, projectsDB, setProjectsDB, setError);
+      updateRegistro(
+        `${URL_PROJECT_MORE_ID}${form.id}`,
+        form,
+        projectsDB,
+        setProjectsDB,
+        setError
+      );
     }
-
     handleReset();
-    History.pushState({}, "to table", "./form-client");
-    // Location.href = "./form-client";
+    //TODO: REDIRECCION AL FINAL DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
+    //todo  History.pushState({}, "to table", "./form-client");
+    // todo  Location.href = "./form-client";
   };
 
   const handleReset = (e) => {
@@ -114,11 +222,7 @@ function FormProject() {
         <label>
           <h3>Select the Client of this Porject.</h3>
           <br />
-          <select
-            name="client_id"
-            defaultValue="Client's List"
-            onChange={handleChange}
-          >
+          <select name="client_id" onChange={handleChange}>
             {clients.map((client) => (
               <option value={client.id}>
                 <p>
@@ -147,7 +251,7 @@ function FormProject() {
           name="description"
           placeholder="Project's description"
           autoComplete="on"
-          minLength={15}
+          minLength={2}
           maxLength={140}
           rows={4}
           cols={30}
@@ -165,8 +269,16 @@ function FormProject() {
         <input type="submit" value="Submit" />
         <input type="reset" value="Reset" onClick={handleReset} />
       </form>
+      <br />
+      <br />
+      <br />
+      <TableListProject
+        setForm={setForm}
+        setRegistroToEdict={setRegistroToEdict}
+        registroToEdict={registroToEdict}
+      />
     </div>
   );
 }
 
-export default FormProject;
+export default CrudFormListProject;

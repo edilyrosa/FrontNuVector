@@ -1,3 +1,5 @@
+//!da muchos errores por eso lo sesure momentaneamente
+/*
 import React from "react";
 
 function CrudTableRow({ projectRegister, setRegistroToEdict, deleteRegistro }) {
@@ -29,3 +31,4 @@ function CrudTableRow({ projectRegister, setRegistroToEdict, deleteRegistro }) {
 }
 
 export default CrudTableRow;
+*/

@@ -1,9 +1,73 @@
 import React, { useState, useEffect } from "react";
-import CrudTableRow from "./CrudTableRow";
 import "../stylies/ComponentTable.css";
 import { URL_PROJECT } from "../helpers/ApiURL";
-import { deleteRegistro, updateRegistro } from "../helpers/CrudFuncions";
+import Loader from "../helpers/Loader";
 
+function ListSearchProject() {
+  const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  //!Get PROJECTS' table in the VE ProjectsDB
+  useEffect(() => {
+    //setLoading(true); //show loader
+    fetch(URL_PROJECT) //Do Req
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((json) => {
+        setProjectsDB(json); //Set the ProjectsDB
+        setError(null); // Isn't error
+        //setLoading(false); //Loader off
+      })
+      .catch((err) => {
+        setProjectsDB(null);
+        setError(err);
+      });
+  }, [projectsDB]);
+
+  return (
+    <div>
+      <h1>ALL YOUR PROJECTS.</h1>
+      {loading && <Loader />}
+      <br /> <br /> <br /> <br />
+      <div className="listProjects">
+        <table>
+          <thead>
+            <tr>
+              <th>Project's id</th>
+              <th>Project's Name</th>
+              <th>Project's Client</th>
+              <th>Project's Description</th>
+              <th>Active</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {projectsDB === 0 ? (
+              <tr>
+                <td colSpan={6}>vacia</td>
+              </tr>
+            ) : (
+              projectsDB.map((el) => (
+                <tr key={el.id}>
+                  <td>{el.id}</td>
+                  <td>{el.name}</td>
+                  <td>{el.client_id}</td>
+                  <td>{el.description}</td>
+                  <td>{el.active ? "Yes" : "No"}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+        ;
+      </div>
+    </div>
+  );
+}
+
+export default ListSearchProject;
+
+/* 
 function CrudTable() {
   const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
   const [error, setError] = useState(null);
@@ -27,11 +91,16 @@ function CrudTable() {
       });
   }, []);
 
-  console.log(projectsDB);
-
   return (
     <div>
       <h1>ALL YOUR PROJECTS.</h1>
+      {loading && <Loader />}
+      {error && (
+        <Message
+          msj={`Error: ${error.status}: ${error.statusText}`}
+          bgColor={"#dc3545"}
+        />
+      )}
       <table>
         <thead>
           <tr>
@@ -61,6 +130,13 @@ function CrudTable() {
                   <button
                     onClick={() => {
                       setRegistroToEdict(el.id); //!Deja de ser NULL
+                      updateRegistro(
+                        URL_PROJECT,
+                        el,
+                        projectsDB,
+                        setProjectsDB,
+                        setError
+                      );
                     }}
                   >
                     Update
@@ -85,6 +161,8 @@ function CrudTable() {
 
 export default CrudTable;
 
+
+*/
 /*
 import React from "react";
 import CrudTableRow from "./CrudTableRow";

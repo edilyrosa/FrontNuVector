@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom"; //Route es el path donde debe 
 import ProjectForm from "./components/ProjectForm";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import FormProject from "./project/FormProject";
-import CrudTable from "./project/CrudTable";
+import ListSearchProject from "./project/ListSearchProject";
+import CrudFormListProject from "./project/CrudFormListProject";
 
 function App() {
   return (
@@ -14,8 +14,13 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/Reports" element={<ProjectForm />} />
 
-        <Route exact path="/form-project" element={<FormProject />} />
-        <Route exact path="/table-project" element={<CrudTable />} />
+        {/* <Route exact path="/form-project" element={<FormProject />} /> */}
+        <Route exact path="/form-project" element={<CrudFormListProject />} />
+        <Route
+          exact
+          path="/list-search-project"
+          element={<ListSearchProject />}
+        />
       </Routes>
     </>
   );

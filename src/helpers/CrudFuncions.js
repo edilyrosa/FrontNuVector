@@ -1,4 +1,5 @@
 const createRegistro = (
+  URL,
   registro,
   setLoading,
   setProjectsDB,
@@ -15,7 +16,7 @@ const createRegistro = (
     },
   };
   setLoading(true); //Pinto el loader
-  fetch("http://localhost:5000/project", options)
+  fetch(URL, options)
     .then((res) => (res.ok ? res.json() : Promise.reject(res)))
     .then((json) => {
       setProjectsDB([...projectsDB, json]);
@@ -27,19 +28,18 @@ const createRegistro = (
 };
 
 //*Metodo llamado por Hijo <FormCrud.js oyente de onSubmit
-const updateRegistro = (registro, projectsDB, setProjectsDB, setError) => {
-  //Parametro registro es el obj de info inputs a EDITAR.
+const updateRegistro = (URL, registro, projectsDB, setProjectsDB, setError) => {
   //?Recorremos cada obj de Array clientsDB, cuando halle la coincidencia de ID, le asignara el registro EDITADO a ese ID, que le pertenece y se hace la actualizacion de info de ese registro..
 
   let options = {
     method: "PUT",
-    body: JSON.stringify(registro), //!aca va el registro  a postear
+    body: JSON.stringify(registro),
     headers: {
       "content-type": "application/json",
-      //acept: "application/json",
+      acept: "application/json",
     },
   };
-  fetch(`http://localhost:5000/project/${registro.id}`, options)
+  fetch(URL, options)
     .then((res) => (res.ok ? res.json() : Promise.reject(res)))
     .then((json) => {
       let newProjectDB = projectsDB.map((el) =>
@@ -54,7 +54,7 @@ const updateRegistro = (registro, projectsDB, setProjectsDB, setError) => {
 };
 
 //*Metodo llamado por hijo < CrudTable.js oyente con el boton "Eliminar"
-const deleteRegistro = (id, projectsDB, setProjectsDB, setError) => {
+const deleteRegistro = (URL, id, projectsDB, setProjectsDB, setError) => {
   let isDelete = window.confirm(`Desea borrar el registro con ID = ${id}`);
   if (isDelete) {
     let options = {
@@ -64,7 +64,7 @@ const deleteRegistro = (id, projectsDB, setProjectsDB, setError) => {
         //acept: "application/json",
       },
     };
-    fetch(`http://localhost:5000/project/${id}`, options)
+    fetch(URL, options)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         let newProjectDB = projectsDB.filter((el) => el.id !== id);

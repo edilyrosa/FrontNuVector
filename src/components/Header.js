@@ -46,17 +46,15 @@ function Header(props) {
               <ul>
                 <li>
                   <Link className="sonAssets sonAssets1" to="./form-project">
-                    Add a new Project
+                    Add, Update or Delate your Projects.
                   </Link>
                 </li>
                 <li>
-                  <Link className="sonAssets sonAssets2" to="./table-project">
-                    Show details Project's one
-                  </Link>
-                </li>
-                <li>
-                  <Link className="sonAssets sonAssets2" to="./table-project">
-                    Show all the Projects
+                  <Link
+                    className="sonAssets sonAssets2"
+                    to="./list-search-project"
+                  >
+                    Watch all your Projects or find ones.
                   </Link>
                 </li>
               </ul>

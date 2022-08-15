@@ -1,9 +1,9 @@
 form * {
-  margin: 0.5rem;
-  padding: 0.5rem;
+  margin: 0.2rem;
+  padding: 0.2rem;
 }
 form {
-  padding: 2rem;
+  padding: 0.5rem;
   border: 1px solid rosybrown;
   width: 80%;
   margin-right: auto;
@@ -73,7 +73,7 @@ td {
 }
 
 .divForm {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 select,
@@ -122,16 +122,22 @@ h2 {
   text-align: center;
   color: var(--primary-color);
   max-width: 100%;
-  font-size: 1.5rem;
+  font-size: 4rem;
 }
 
 h3 {
-  font-size: 1rem;
+  font-size: 3rem;
   text-align: center;
   font-weight: 100;
   color: var(--primary-color);
 }
 
+h3 {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 100;
+  color: var(--primary-color);
+}
 p {
   text-align: justify;
   font-size: 1rem;
