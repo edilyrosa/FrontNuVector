@@ -4,7 +4,8 @@ import Home from "./components/Home";
 import ListSearchProject from "./project/ListSearchProject";
 import CrudFormListProject from "./project/CrudFormListProject";
 import CrudFormListTaskEntry from "./taskEntry/CrudFormListTaskEntry";
-import ListSearchTask from "./taskEntry/ListSearchTask"; //TODO hacerlaaaa
+import ListSearchTask from "./taskEntry/ListSearchTask";
+import CrudFormListClient from "./client/CrudFormListClient"; //TODO hacerlaaaa
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
 
         {/* //todo: CLIENT  */}
-        <Route exact path="/clients" element={<clients />} />
+        <Route exact path="/form-client" element={<CrudFormListClient />} />
 
         {/* //!PROJECT */}
         <Route exact path="/form-project" element={<CrudFormListProject />} />

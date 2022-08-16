@@ -3,7 +3,7 @@
   /* background-image: url(../assets/tech.jpg); */
   background-image: url(../assets/techTwo.jpg);
   position: fixed;
-  top: 20rem;
+  top: 23rem;
   left: 0px;
   right: 0px;
   bottom: 0px;
@@ -24,7 +24,7 @@
 }
 
 p {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   color: var(--primary-color);
   display: block;
@@ -34,13 +34,11 @@ span {
   color: var(--primary-color);
 }
 
-h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  color: var(--primary-color);
-}
-
 li,
 ul {
   font-size: 1.4rem;
+}
+
+.tagP {
+  font-size: 2rem;
 }

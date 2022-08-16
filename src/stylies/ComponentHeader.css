@@ -51,7 +51,7 @@ main {
   padding: 0 1vw;
   transition: all 0.3s easy-in-out;
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.9rem;
 }
 .titleLogo {
   color: var(--header-color);

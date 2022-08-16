@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import {
   createRegistro,
   updateRegistro,
   deleteRegistro,
 } from "../helpers/CrudFuncions";
-import {
-  URL_CLIENT,
-  URL_PROJECT,
-  URL_PROJECT_MORE_ID,
-} from "../helpers/ApiURL";
+import { URL_CLIENT, URL_CLIENT_ID } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../stylies/ComponentForm.css";
 import "../index";
 
-function TableListProject({
+function TableListClient({
   setForm,
   setRegistroToEdict,
   registroToEdict,
@@ -28,7 +23,7 @@ function TableListProject({
     <div>
       <br />
       <br />
-      <h1>CHOOSE THE PROJECT TO UPDATE OR DELETE.</h1>
+      <h1>CHOOSE THE CLIENT TO UPDATE OR DELETE.</h1>
       {loading && <Loader />}
       {error && (
         <Message
@@ -39,32 +34,35 @@ function TableListProject({
       <table>
         <thead>
           <tr>
-            <th>Project's id</th>
-            <th>Project's Name</th>
-            <th>Project's Client</th>
-            <th>Project's Description</th>
+            <th>Client's id</th>
+            <th>Client's City</th>
+            <th>Client's State</th>
+            <th>Client's Country</th>
+            <th>Client's industry_codes</th>
             <th>Active</th>
-            <th>Accions</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
           {records.length === 0 ? (
             <tr>
-              <td colSpan={6}>You don't have Projects</td>
+              <td colSpan={7}>You don't have Clients</td>
             </tr>
           ) : (
             records.map((el) => (
               <tr key={el.id}>
                 <td>{el.id}</td>
                 <td>{el.name}</td>
-                <td>{el.client_id}</td>
-                <td>{el.description}</td>
-                <td>{el.active ? "Yes" : "No"}</td>
+                <td>{el.city}</td>
+                <td>{el.state}</td>
+                <td>{el.country}</td>
+                <td>{el.industry_codes}</td>
+                <td>{el.active}</td>
                 <td className="buttonList">
                   <button
                     onClick={(e) => {
-                      setRegistroToEdict(el); //!Deja de ser NULL, cambia titulo
+                      setRegistroToEdict(el);
                       setForm(el);
                       console.log(el);
                       //TODO: window.scrollTo = "0px";
@@ -87,45 +85,33 @@ function TableListProject({
 
 const initialDB = {
   id: null,
-  client_id: "",
   name: "",
-  description: "",
+  city: "",
+  state: "",
+  country: "",
+  industry_codes: "",
   active: "",
 };
-
-function CrudFormListProject() {
+function CrudFormListClient() {
   const [form, setForm] = useState(initialDB);
   const [clients, setClients] = useState([]);
-  const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [registroToEdict, setRegistroToEdict] = useState(null); //Flag-Project
 
   //!get CLIENTS' table
   useEffect(() => {
-    //setLoading(true); //show loader
-    fetch(URL_CLIENT)
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
-      .then((json) => {
-        setClients(json);
-        //setLoading(false); //show loader
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  //!Get PROJECTS' table  in the VE ProjectsDB
-  useEffect(() => {
     setLoading(true); //show loader
-    fetch(URL_PROJECT) //Do Req
+    fetch(URL_CLIENT) //Do Req
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
-        setProjectsDB(json); //Set the ProjectsDB
+        setClients(json); //Set the ProjectsDB
         setError(null); // Isn't error
         setLoading(false); //Loader off
         console.log();
       })
       .catch((err) => {
-        setProjectsDB(null);
+        setClients(null);
         setError(err);
       });
   }, []);
@@ -134,24 +120,28 @@ function CrudFormListProject() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-  const handleChecked = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.checked });
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
     //!Validation before POST
-    if (!form.name || !form.description || !form.client_id) {
+    if (
+      !form.name ||
+      !form.city ||
+      !form.state ||
+      !form.country ||
+      !form.industry_codes ||
+      !form.active
+    ) {
       alert("Please, fill out all the inputs");
       return;
     }
     //!Whiltout ID, is flag to make the POST()
     if (form.id === null) {
       createRegistro(
-        URL_PROJECT,
+        URL_CLIENT,
         form,
         setLoading,
-        setProjectsDB,
+        setClients,
         setError,
         "You have sent the Project successfully"
       );
@@ -160,10 +150,10 @@ function CrudFormListProject() {
     } else {
       //!With ID, is flag to make the UPDATE()
       updateRegistro(
-        `${URL_PROJECT_MORE_ID}${form.id}`,
+        `${URL_CLIENT_ID}${form.id}`,
         form,
-        projectsDB,
-        setProjectsDB,
+        clients,
+        setClients,
         setError,
         setLoading,
         "You have updated the Task Entry successfully"
@@ -176,29 +166,29 @@ function CrudFormListProject() {
   const handleReset = (e) => {
     setForm(initialDB);
     setRegistroToEdict(null);
-    e.target.checked = false;
   };
 
   //!Making the DELETE()
   const handleDelete = (id, el) => {
     deleteRegistro(
-      `${URL_PROJECT_MORE_ID}${id}`,
+      `${URL_CLIENT_ID}${id}`,
       id,
-      projectsDB,
-      setProjectsDB,
+      clients,
+      setClients,
       setError,
       "You have updated the Project successfully"
     );
   };
+
   return (
     <div>
       <br />
       <br />
-      <h1>PORJECT'S FORM.</h1>
+      <h1>CLIENT'S FORM.</h1>
       <h2>
         {!registroToEdict
-          ? "Adding a new Project to the list."
-          : "Editing... What do you want change of the Project?"}
+          ? "Adding a new Client to the list."
+          : "Editing... What do you want change of the Client?"}
       </h2>
       {loading && <Loader />}
       {error && (
@@ -210,52 +200,51 @@ function CrudFormListProject() {
 
       <form onSubmit={handleSubmit}>
         <br />
-        <label>
-          <h3>Select the Client of this Porject.</h3>
-          <br />
-          <select name="client_id" onChange={handleChange}>
-            {clients.map((client) => (
-              <option value={client.id}>
-                <p>
-                  Client's Name: {client.name} ⇒ ID: {client.id}
-                </p>
-              </option>
-            ))}
-          </select>
-        </label>
-        <h4>
-          If your client is new, it's not in the list. Just add it, clicking
-          <Link className="sonAssets sonAssets2" to="../form-client">
-            <i>here</i>
-          </Link>
-        </h4>
-        <br />
         <input
           type="text"
           name="name"
-          placeholder="Project's Name"
+          placeholder="Client's Name"
           value={form.name}
           onChange={handleChange}
         />
 
-        <textarea
-          name="description"
-          placeholder="Project's description"
-          autoComplete="on"
-          minLength={2}
-          maxLength={140}
-          rows={4}
-          cols={30}
-          value={form.description}
+        <input
+          type="text"
+          name="city"
+          placeholder="Client's City"
+          value={form.city}
           onChange={handleChange}
         />
 
-        <br />
-        <label>
-          <h3>Is active the project?</h3>
-          <input type="checkbox" name="active" onChange={handleChecked} />
-        </label>
-        <br />
+        <input
+          type="text"
+          name="state"
+          placeholder="Client's State"
+          value={form.state}
+          onChange={handleChange}
+        />
+
+        <input
+          type="text"
+          name="country"
+          placeholder="Client's Country"
+          value={form.country}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="industry_codes"
+          placeholder="Industry_codes of the Client"
+          value={form.industry_codes}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="active"
+          placeholder="Is active the Client? Y/N"
+          value={form.active}
+          onChange={handleChange}
+        />
 
         <input type="submit" value="Submit" />
         <input type="reset" value="Reset" onClick={handleReset} />
@@ -263,11 +252,11 @@ function CrudFormListProject() {
       <br />
       <br />
       <br />
-      <TableListProject
+      <TableListClient
         setForm={setForm}
         setRegistroToEdict={setRegistroToEdict}
         registroToEdict={registroToEdict}
-        records={projectsDB}
+        records={clients}
         onDelete={handleDelete}
         error={error}
         loading={loading}
@@ -276,4 +265,4 @@ function CrudFormListProject() {
   );
 }
 
-export default CrudFormListProject;
+export default CrudFormListClient;

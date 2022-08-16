@@ -21,7 +21,6 @@ import "../stylies/ComponentForm.css";
 import "../index";
 
 //!Child's Table
-
 function TableListTaskEntry({
   setForm,
   setRegistroToEdict,
@@ -33,6 +32,8 @@ function TableListTaskEntry({
 }) {
   return (
     <div>
+      <br />
+      <br />
       <h1>CHOOSE THE TASK ENTRY TO UPDATE OR DELETE.</h1>
       {loading && <Loader />}
       {error && (
@@ -115,7 +116,7 @@ const initialDB = {
   category_id: "",
   description: "",
 };
-function CrudFormListTaskEntry(props) {
+function CrudFormListTaskEntry() {
   const [form, setForm] = useState(initialDB);
   const [clients, setClients] = useState([]);
   const [projectsDB, setProjectsDB] = useState([]);
@@ -130,41 +131,47 @@ function CrudFormListTaskEntry(props) {
 
   //!get CLIENTS' table
   useEffect(() => {
-    //setLoading(true); //show loader
     fetch(URL_CLIENT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
-        //setLoading(false); //show loader
       })
       .catch((err) => console.log(err));
   }, []);
 
   //!Get PROJECTS' table  in the VE ProjectsDB
   useEffect(() => {
-    setLoading(true); //show loader
     fetch(URL_PROJECT) //Do Req
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
-        setProjectsDB(json); //Set the ProjectsDB
+        setProjectsDB(json);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  //!Get TASKENTRY' table  in the VE ProjectsDB
+  useEffect(() => {
+    setLoading(true); //show loader
+    fetch(URL_TASK) //Do Req
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((json) => {
+        setTaskEntriesDB(json); //Set the ProjectsDB
         setError(null); // Isn't error
         setLoading(false); //Loader off
         console.log();
       })
       .catch((err) => {
-        setProjectsDB(null);
+        setTaskEntriesDB(null);
         setError(err);
       });
   }, []);
 
   //!get CONTRACTOR'S table
   useEffect(() => {
-    //setLoading(true); //show loader
     fetch(URL_CONTRACTOR)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setContractorsDB(json);
-        //setLoading(false); //show loader
       })
       .catch((err) => console.log(err));
   }, []);
@@ -211,7 +218,16 @@ function CrudFormListTaskEntry(props) {
     e.preventDefault();
 
     //!Validation before POST
-    if (!form.duration || !form.description) {
+    if (
+      !form.duration ||
+      !form.description ||
+      !form.client_id ||
+      !form.product_id ||
+      !form.project_id ||
+      !form.activity_id ||
+      !form.category_id ||
+      !form.contractor_id
+    ) {
       alert("Please, fill out all the inputs");
       return;
     }
@@ -247,8 +263,10 @@ function CrudFormListTaskEntry(props) {
   const handleReset = (e) => {
     setForm(initialDB);
     setRegistroToEdict(null);
+    e.target.checked = false;
   };
 
+  //!Making the DELETE()
   const handleDelete = (id, el) => {
     deleteRegistro(
       `${URL_TASK_MORE_ID}${id}`,
@@ -260,14 +278,15 @@ function CrudFormListTaskEntry(props) {
     );
   };
 
-  /////////////////////
   return (
     <div>
+      <br />
+      <br />
       <h1>FORM OF TASK ENTRIES.</h1>
       <h2>
         {!registroToEdict
-          ? "Adding a new Project to the list."
-          : "Editing... What do you want change of the Project?"}
+          ? "Adding a new Task Entry to the list."
+          : "Editing... What do you want change of the Task Entry?"}
       </h2>
       {loading && <Loader />}
       {error && (
@@ -279,17 +298,29 @@ function CrudFormListTaskEntry(props) {
 
       <form onSubmit={handleSubmit}>
         <br />
+
+        <h3>Project's Date</h3>
+        <br />
         <input
           type="date"
           name="date"
-          placeholder="Project's Date"
-          // value={new Date().toISOString().slice(0, 10)}
-          // value="2022-08-16"
           value={form.date}
           onChange={handleChange}
         />
-        {/* input date oculto pero q salga en tabla */}
         <br />
+
+        <label>
+          <h3>Task's Dutation</h3>
+          <input
+            type="number"
+            name="duration"
+            placeholder="Horurs spent"
+            value={form.duration}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+
         <label>
           <h3>Select the Task's Contractor.</h3>
           <br />
@@ -320,7 +351,7 @@ function CrudFormListTaskEntry(props) {
         </label>
         <h4>
           If your project is new, it's not in the list. Just add it, clicking
-          <Link className="sonAssets sonAssets2" to="./form-project">
+          <Link className="sonAssets sonAssets2" to="../form-project">
             <i>here</i>
           </Link>
         </h4>
@@ -342,7 +373,7 @@ function CrudFormListTaskEntry(props) {
         </label>
         <h4>
           If your client is new, it's not in the list. Just add it, clicking
-          <Link className="sonAssets sonAssets2" to="./form-client">
+          <Link className="sonAssets sonAssets2" to="../form-client">
             <i>here</i>
           </Link>
         </h4>
@@ -395,18 +426,6 @@ function CrudFormListTaskEntry(props) {
               </option>
             ))}
           </select>
-        </label>
-
-        <br />
-        <label>
-          <h3>hours</h3>
-          <input
-            type="text"
-            name="duration"
-            placeholder="Horurs spent"
-            value={form.duration}
-            onChange={handleChange}
-          />
         </label>
 
         <br />

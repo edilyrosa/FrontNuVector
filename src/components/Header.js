@@ -22,21 +22,11 @@ function Header(props) {
             </li>
             <li>
               {/* //!CLIENT */}
-              <Link to="./clients">Your Clients 🔽</Link>
+              <Link to="./form-client">Your Clients 🔽</Link>
               <ul>
                 <li>
-                  <Link className="sonAssets sonAssets1" to="./client">
-                    Add a new Client
-                  </Link>
-                </li>
-                <li>
-                  <Link className="sonAssets sonAssets2" to="./clients">
-                    Show details Client's one
-                  </Link>
-                </li>
-                <li>
-                  <Link className="sonAssets sonAssets2" to="./form-client">
-                    Show all the Clients
+                  <Link className="sonAssets sonAssets1" to="./form-client">
+                    Add, Update or Delate your Clients.
                   </Link>
                 </li>
               </ul>

@@ -8,7 +8,7 @@ function Home({ notification }) {
     <>
       <div className="TextHome">
         <h1>NOTIFICATIONS AND NEW.</h1>
-        <p>
+        <p className="tagP">
           {notification
             ? `Today is ${getDateActual()}, and you have ${numNotifications} Notificacion about your assests, please enter into "Our reports", and check the details.`
             : `Today is   ${getDateActual()}, and you have  ${numNotifications} Notificacions, evething is Ok!`}

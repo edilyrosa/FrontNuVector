@@ -1,4 +1,6 @@
 const URL_CLIENT = "http://localhost:5000/client";
+const URL_CLIENT_ID = "http://localhost:5000/client/:";
+
 const URL_CONTRACTOR = "http://localhost:5000/contractor";
 const URL_PRODUCT = "http://localhost:5000/product";
 const URL_ACTIVITY = "http://localhost:5000/activity";
@@ -20,4 +22,5 @@ export {
   URL_ACTIVITY,
   URL_CATEGORY,
   URL_TASK_MORE_ID,
+  URL_CLIENT_ID,
 };
