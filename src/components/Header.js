@@ -16,11 +16,12 @@ function Header(props) {
           </section>
 
           <ul className="menu">
+            {/* //!HOME */}
             <li>
               <Link to="./">Home and Notifications</Link>{" "}
             </li>
             <li>
-              {" "}
+              {/* //!CLIENT */}
               <Link to="./clients">Your Clients 🔽</Link>
               <ul>
                 <li>
@@ -40,9 +41,9 @@ function Header(props) {
                 </li>
               </ul>
             </li>
-
+            {/* //!PROJECTS*/}
             <li>
-              <Link to="./projects">Your Projects 🔽</Link>
+              <Link to="./list-search-project">Your Projects 🔽</Link>
               <ul>
                 <li>
                   <Link className="sonAssets sonAssets1" to="./form-project">
@@ -59,29 +60,25 @@ function Header(props) {
                 </li>
               </ul>
             </li>
-
             <li>
-              {" "}
-              <Link to="./TableTaskEnties">Your task entries 🔽</Link>
+              {/* //!TASK ENTRY */}
+              <Link to="./list-search-task">Your task entries 🔽</Link>
               <ul>
                 <li>
-                  <Link className="sonAssets sonAssets1" to="./FormAddAsset">
-                    Add a new Task
+                  <Link className="sonAssets sonAssets1" to="./form-tack">
+                    Add, Update or Delate your Task Entries.
                   </Link>
                 </li>
                 <li>
-                  <Link className="sonAssets sonAssets2" to="./ProjectForm">
-                    Show details Task's one
-                  </Link>
-                </li>
-                <li>
-                  <Link className="sonAssets sonAssets2" to="./ProjectForm">
-                    Show all the task entries
+                  <Link
+                    className="sonAssets sonAssets2"
+                    to="./list-search-task"
+                  >
+                    Watch all your Task Entries or find ones.
                   </Link>
                 </li>
               </ul>
             </li>
-
             <li>
               {" "}
               <Link to="./Graphs">Status Project/Time Graphs</Link>

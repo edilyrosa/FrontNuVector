@@ -8,6 +8,7 @@ const URL_PROJECT = "http://localhost:5000/project";
 const URL_PROJECT_MORE_ID = "http://localhost:5000/project/:";
 
 const URL_TASK = "http://localhost:5000/taskentry";
+const URL_TASK_MORE_ID = "http://localhost:5000/taskentry/:";
 
 export {
   URL_CLIENT,
@@ -18,4 +19,5 @@ export {
   URL_PRODUCT,
   URL_ACTIVITY,
   URL_CATEGORY,
+  URL_TASK_MORE_ID,
 };

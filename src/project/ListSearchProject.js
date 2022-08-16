@@ -4,7 +4,7 @@ import { URL_PROJECT } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 
 function ListSearchProject() {
-  const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
+  const [projectsDB, setProjectsDB] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 

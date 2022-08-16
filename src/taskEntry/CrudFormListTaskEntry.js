@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  //createRegistro,
-  //updateRegistro,
+  createRegistro,
+  updateRegistro,
   deleteRegistro,
 } from "../helpers/CrudFuncions";
 import {
@@ -10,6 +10,7 @@ import {
   URL_PROJECT,
   URL_CONTRACTOR,
   URL_TASK,
+  URL_TASK_MORE_ID,
   URL_PRODUCT,
   URL_ACTIVITY,
   URL_CATEGORY,
@@ -19,11 +20,93 @@ import Message from "../helpers/Message";
 import "../stylies/ComponentForm.css";
 import "../index";
 
+//!Child's Table
+
+function TableListTaskEntry({
+  setForm,
+  setRegistroToEdict,
+  registroToEdict,
+  records,
+  onDelete,
+  error,
+  loading,
+}) {
+  return (
+    <div>
+      <h1>CHOOSE THE TASK ENTRY TO UPDATE OR DELETE.</h1>
+      {loading && <Loader />}
+      {error && (
+        <Message
+          msj={`Error: ${error.status}: ${error.statusText}`}
+          bgColor={"#dc3545"}
+        />
+      )}
+      <table>
+        <thead>
+          <tr>
+            <th>Task's Entry id</th>
+            <th>Date</th>
+            <th>Hours</th>
+            <th>Billable</th>
+            <th>Contractor</th>
+            <th>Client</th>
+            <th>Project</th>
+            <th>Product</th>
+            <th>Activity</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {records.length === 0 ? (
+            <tr>
+              <td colSpan={12}>You don't have Task Entries.</td>
+            </tr>
+          ) : (
+            records.map((el) => (
+              <tr key={el.id}>
+                <td>{el.id}</td>
+                <td>{el.date}</td>
+                <td>{el.duration}</td>
+                <td>{el.billable ? "Yes" : "No"}</td>
+                <td>{el.contractor_id}</td>
+                <td>{el.client_id}</td>
+                <td>{el.project_id}</td>
+                <td>{el.product_id}</td>
+                <td>{el.activity_id}</td>
+                <td>{el.category_id}</td>
+                <td>{el.description}</td>
+                <td className="buttonList">
+                  <button
+                    onClick={(e) => {
+                      setRegistroToEdict(el); //!Deja de ser NULL, cambia titulo
+                      setForm(el);
+                      console.log(el);
+                      //TODO: window.scrollTo = "0px";
+                    }}
+                  >
+                    Update
+                  </button>
+
+                  <button onClick={() => onDelete(el.id, el)}>Delete</button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+      ;
+    </div>
+  );
+}
+
 const initialDB = {
   id: null,
   date: "",
   contractor_id: "",
-  hour: "",
+  duration: "",
   billable: "",
   project_id: "",
   client_id: "",
@@ -36,6 +119,7 @@ function CrudFormListTaskEntry(props) {
   const [form, setForm] = useState(initialDB);
   const [clients, setClients] = useState([]);
   const [projectsDB, setProjectsDB] = useState([]);
+  const [taskEntriesDB, setTaskEntriesDB] = useState([]);
   const [contractorsDB, setContractorsDB] = useState([]);
   const [productDB, setProductDB] = useState([]);
   const [activitiesDB, setActivitiesDB] = useState([]);
@@ -127,32 +211,33 @@ function CrudFormListTaskEntry(props) {
     e.preventDefault();
 
     //!Validation before POST
-    if (!form.name || !form.description) {
+    if (!form.duration || !form.description) {
       alert("Please, fill out all the inputs");
       return;
     }
 
-    //!quede aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
     //!Whiltout ID, is flag to make the POST()
     if (form.id === null) {
       createRegistro(
-        URL_PROJECT,
+        URL_TASK,
         form,
         setLoading,
-        setProjectsDB,
-        projectsDB,
-        setError
+        setTaskEntriesDB,
+        setError,
+        "You have posted the Task Entry successfully"
       );
-      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
 
-      //!With ID, is flag to make the UPDATE()
+      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
     } else {
+      //!With ID, is flag to make the UPDATE()
       updateRegistro(
-        `${URL_PROJECT_MORE_ID}${form.id}`,
+        `${URL_TASK_MORE_ID}${form.id}`,
         form,
-        projectsDB,
-        setProjectsDB,
-        setError
+        taskEntriesDB,
+        setTaskEntriesDB,
+        setError,
+        setLoading,
+        "You have updated the Task Entry successfully"
       );
     }
     handleReset();
@@ -166,18 +251,19 @@ function CrudFormListTaskEntry(props) {
 
   const handleDelete = (id, el) => {
     deleteRegistro(
-      `${URL_PROJECT_MORE_ID}${id}`,
+      `${URL_TASK_MORE_ID}${id}`,
       id,
-      projectsDB,
-      setProjectsDB,
-      setError
+      taskEntriesDB,
+      setTaskEntriesDB,
+      setError,
+      "You have deleted the Task Entry successfully"
     );
   };
 
   /////////////////////
   return (
     <div>
-      <h1>PORJECT'S FORM.</h1>
+      <h1>FORM OF TASK ENTRIES.</h1>
       <h2>
         {!registroToEdict
           ? "Adding a new Project to the list."
@@ -193,8 +279,56 @@ function CrudFormListTaskEntry(props) {
 
       <form onSubmit={handleSubmit}>
         <br />
+        <input
+          type="date"
+          name="date"
+          placeholder="Project's Date"
+          // value={new Date().toISOString().slice(0, 10)}
+          // value="2022-08-16"
+          value={form.date}
+          onChange={handleChange}
+        />
+        {/* input date oculto pero q salga en tabla */}
+        <br />
         <label>
-          <h3>Select the Client of this Porject.</h3>
+          <h3>Select the Task's Contractor.</h3>
+          <br />
+          <select name="contractor_id" onChange={handleChange}>
+            {contractorsDB.map((contractor) => (
+              <option value={contractor.id}>
+                <p>
+                  Contractor's Name: {contractor.name} ⇒ ID: {contractor.id}
+                </p>
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <br />
+        <label>
+          <h3>Select the Task's Project.</h3>
+          <br />
+          <select name="project_id" onChange={handleChange}>
+            {projectsDB.map((project) => (
+              <option value={project.id}>
+                <p>
+                  Project's Name: {project.name} ⇒ ID: {project.id}
+                </p>
+              </option>
+            ))}
+          </select>
+        </label>
+        <h4>
+          If your project is new, it's not in the list. Just add it, clicking
+          <Link className="sonAssets sonAssets2" to="./form-project">
+            <i>here</i>
+          </Link>
+        </h4>
+        <br />
+
+        <br />
+        <label>
+          <h3>Select the Task's Client.</h3>
           <br />
           <select name="client_id" onChange={handleChange}>
             {clients.map((client) => (
@@ -213,17 +347,73 @@ function CrudFormListTaskEntry(props) {
           </Link>
         </h4>
         <br />
-        <input
-          type="text"
-          name="name"
-          placeholder="Project's Name"
-          value={form.name}
-          onChange={handleChange}
-        />
+
+        <label>
+          <h3>Select the Task's Product.</h3>
+          <br />
+          <select name="product_id" onChange={handleChange}>
+            {productDB.map((product) => (
+              <option value={product.id}>
+                <p>
+                  Product's Description: {product.description} ⇒ ID:{" "}
+                  {product.id}
+                </p>
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <br />
+
+        <label>
+          <h3>Select the Task's Activity.</h3>
+          <br />
+          <select name="activity_id" onChange={handleChange}>
+            {activitiesDB.map((activity) => (
+              <option value={activity.id}>
+                <p>
+                  Activity's Description: {activity.description} ⇒ ID:{" "}
+                  {activity.id}
+                </p>
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <br />
+
+        <label>
+          <h3>Select the Task's Category.</h3>
+          <br />
+          <select name="category_id" onChange={handleChange}>
+            {categoriesDB.map((category) => (
+              <option value={category.id}>
+                <p>
+                  Category's Description: {category.description} ⇒ ID:{" "}
+                  {category.id}
+                </p>
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <br />
+        <label>
+          <h3>hours</h3>
+          <input
+            type="text"
+            name="duration"
+            placeholder="Horurs spent"
+            value={form.duration}
+            onChange={handleChange}
+          />
+        </label>
+
+        <br />
 
         <textarea
           name="description"
-          placeholder="Project's description"
+          placeholder="Task's description"
           autoComplete="on"
           minLength={2}
           maxLength={140}
@@ -235,8 +425,8 @@ function CrudFormListTaskEntry(props) {
 
         <br />
         <label>
-          <h3>Is active the project?</h3>
-          <input type="checkbox" name="active" onChange={handleChecked} />
+          <h3>Is billable this task?</h3>
+          <input type="checkbox" name="billable" onChange={handleChecked} />
         </label>
         <br />
 
@@ -246,15 +436,17 @@ function CrudFormListTaskEntry(props) {
       <br />
       <br />
       <br />
-      {/* <TableListProject
-        setForm={setForm}
-        setRegistroToEdict={setRegistroToEdict}
-        registroToEdict={registroToEdict}
-        records={projectsDB}
-        onDelete={handleDelete}
-        error={error}
-        loading={loading}
-      /> */}
+      {
+        <TableListTaskEntry
+          setForm={setForm}
+          setRegistroToEdict={setRegistroToEdict}
+          registroToEdict={registroToEdict}
+          records={taskEntriesDB}
+          onDelete={handleDelete}
+          error={error}
+          loading={loading}
+        />
+      }
     </div>
   );
 }

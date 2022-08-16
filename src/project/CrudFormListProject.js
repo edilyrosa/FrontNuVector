@@ -154,19 +154,21 @@ function CrudFormListProject() {
         form,
         setLoading,
         setProjectsDB,
-        projectsDB,
-        setError
+        setError,
+        "You have sent the Project successfully"
       );
-      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
 
-      //!With ID, is flag to make the UPDATE()
+      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
     } else {
+      //!With ID, is flag to make the UPDATE()
       updateRegistro(
         `${URL_PROJECT_MORE_ID}${form.id}`,
         form,
         projectsDB,
         setProjectsDB,
-        setError
+        setError,
+        setLoading,
+        "You have updated the Task Entry successfully"
       );
     }
     handleReset();
@@ -178,13 +180,15 @@ function CrudFormListProject() {
     setRegistroToEdict(null);
   };
 
+  //!Making the DELETE()
   const handleDelete = (id, el) => {
     deleteRegistro(
       `${URL_PROJECT_MORE_ID}${id}`,
       id,
       projectsDB,
       setProjectsDB,
-      setError
+      setError,
+      "You have updated the Task Entry successfully"
     );
   };
   return (
