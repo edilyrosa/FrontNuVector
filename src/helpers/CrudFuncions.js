@@ -19,7 +19,8 @@ const createRegistro = (
   fetch(URL, options)
     .then((res) => (res.ok ? res.json() : Promise.reject(res)))
     .then((json) => {
-      setProjectsDB([...projectsDB, json]);
+      console.log(setProjectsDB, json);
+      setProjectsDB((prev) => [...prev, json]);
       console.log(`Has sent the Project ${json}`);
     })
     .catch((err) => {
@@ -65,7 +66,7 @@ const deleteRegistro = (URL, id, projectsDB, setProjectsDB, setError) => {
       },
     };
     fetch(URL, options)
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((res) => (res.ok ? res.text() : Promise.reject(res)))
       .then((json) => {
         let newProjectDB = projectsDB.filter((el) => el.id !== id);
         setProjectsDB(newProjectDB);

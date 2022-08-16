@@ -15,26 +15,18 @@ import Message from "../helpers/Message";
 import "../stylies/ComponentForm.css";
 import "../index";
 
-function TableListProject({ setForm, setRegistroToEdict, registroToEdict }) {
-  const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  //!Get PROJECTS' table in the VE ProjectsDB
-  useEffect(() => {
-    //setLoading(true); //show loader
-    fetch(URL_PROJECT) //Do Req
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
-      .then((json) => {
-        setProjectsDB(json); //Set the ProjectsDB
-        setError(null); // Isn't error
-        //setLoading(false); //Loader off
-      })
-      .catch((err) => {
-        setProjectsDB(null);
-        setError(err);
-      });
-  }, [projectsDB]);
+function TableListProject({
+  setForm,
+  setRegistroToEdict,
+  registroToEdict,
+  records,
+  onDelete,
+  error,
+  loading,
+}) {
+  //const [error, setError] = useState(null);
+  //const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
+  // const [loading, setLoading] = useState(false);
 
   return (
     <div>
@@ -59,12 +51,12 @@ function TableListProject({ setForm, setRegistroToEdict, registroToEdict }) {
         </thead>
 
         <tbody>
-          {projectsDB === 0 ? (
+          {records.length === 0 ? (
             <tr>
-              <td colSpan={6}>vacia</td>
+              <td colSpan={6}>You don't have Projects</td>
             </tr>
           ) : (
-            projectsDB.map((el) => (
+            records.map((el) => (
               <tr key={el.id}>
                 <td>{el.id}</td>
                 <td>{el.name}</td>
@@ -83,21 +75,7 @@ function TableListProject({ setForm, setRegistroToEdict, registroToEdict }) {
                     Update
                   </button>
 
-                  <button
-                    onClick={() => {
-                      deleteRegistro(
-                        `${URL_PROJECT_MORE_ID}${el.id}`,
-                        el.id,
-                        el,
-                        projectsDB,
-                        setProjectsDB,
-                        setError
-                      );
-                      window.location.reload();
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <button onClick={() => onDelete(el.id, el)}>Delete</button>
                 </td>
               </tr>
             ))
@@ -120,7 +98,7 @@ const initialDB = {
 function CrudFormListProject() {
   const [form, setForm] = useState(initialDB);
   const [clients, setClients] = useState([]);
-  const [projectsDB, setProjectsDB] = useState(null); //Array ProjectDB from DB
+  const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [registroToEdict, setRegistroToEdict] = useState(null); //Flag-Project
@@ -179,7 +157,7 @@ function CrudFormListProject() {
         projectsDB,
         setError
       );
-      //TODO: REDIRECCION AL FINAL DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
+      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
 
       //!With ID, is flag to make the UPDATE()
     } else {
@@ -192,14 +170,22 @@ function CrudFormListProject() {
       );
     }
     handleReset();
-    //TODO: REDIRECCION AL FINAL DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
-    //todo  History.pushState({}, "to table", "./form-client");
-    // todo  Location.href = "./form-client";
+    //TODO: REDIRECCION AL TOP=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
   };
 
   const handleReset = (e) => {
     setForm(initialDB);
     setRegistroToEdict(null);
+  };
+
+  const handleDelete = (id, el) => {
+    deleteRegistro(
+      `${URL_PROJECT_MORE_ID}${id}`,
+      id,
+      projectsDB,
+      setProjectsDB,
+      setError
+    );
   };
   return (
     <div>
@@ -276,6 +262,10 @@ function CrudFormListProject() {
         setForm={setForm}
         setRegistroToEdict={setRegistroToEdict}
         registroToEdict={registroToEdict}
+        records={projectsDB}
+        onDelete={handleDelete}
+        error={error}
+        loading={loading}
       />
     </div>
   );
