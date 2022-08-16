@@ -143,7 +143,7 @@ function CrudFormListProject() {
     e.preventDefault();
 
     //!Validation before POST
-    if (!form.client_id || !form.name || !form.description) {
+    if (!form.name || !form.description) {
       alert("Please, fill out all the inputs");
       return;
     }

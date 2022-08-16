@@ -1,4 +1,3 @@
-/*
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -33,18 +32,18 @@ const initialDB = {
   category_id: "",
   description: "",
 };
-function CrudFormListEntry(props) {
+function CrudFormListTaskEntry(props) {
   const [form, setForm] = useState(initialDB);
   const [clients, setClients] = useState([]);
-  const [projectsDB, setProjectsDB] = useState(null);
-  const [contractorsDB, setContractorsDB] = useState(null);
-  const [productDB, setProductDB] = useState(null);
-  const [activitiesDB, setActivitiesDB] = useState(null);
-  const [categoriesDB, setCategoriesDB] = useState(null);
-
+  const [projectsDB, setProjectsDB] = useState([]);
+  const [contractorsDB, setContractorsDB] = useState([]);
+  const [productDB, setProductDB] = useState([]);
+  const [activitiesDB, setActivitiesDB] = useState([]);
+  const [categoriesDB, setCategoriesDB] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [registroToEdict, setRegistroToEdict] = useState(null); //Flag-Project
+  const [registroToEdict, setRegistroToEdict] = useState(null);
+
   //!get CLIENTS' table
   useEffect(() => {
     //setLoading(true); //show loader
@@ -116,13 +115,73 @@ function CrudFormListEntry(props) {
       .catch((err) => console.log(err));
   }, []);
 
+  //////////////////////////////////
+  //!Set project's varible from info form
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleChecked = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.checked });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    //!Validation before POST
+    if (!form.name || !form.description) {
+      alert("Please, fill out all the inputs");
+      return;
+    }
+
+    //!quede aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+    //!Whiltout ID, is flag to make the POST()
+    if (form.id === null) {
+      createRegistro(
+        URL_PROJECT,
+        form,
+        setLoading,
+        setProjectsDB,
+        projectsDB,
+        setError
+      );
+      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
+
+      //!With ID, is flag to make the UPDATE()
+    } else {
+      updateRegistro(
+        `${URL_PROJECT_MORE_ID}${form.id}`,
+        form,
+        projectsDB,
+        setProjectsDB,
+        setError
+      );
+    }
+    handleReset();
+    //TODO: REDIRECCION AL TOP=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
+  };
+
+  const handleReset = (e) => {
+    setForm(initialDB);
+    setRegistroToEdict(null);
+  };
+
+  const handleDelete = (id, el) => {
+    deleteRegistro(
+      `${URL_PROJECT_MORE_ID}${id}`,
+      id,
+      projectsDB,
+      setProjectsDB,
+      setError
+    );
+  };
+
+  /////////////////////
   return (
     <div>
-      <h1>TASK ENTRIES'S FORM.</h1>
+      <h1>PORJECT'S FORM.</h1>
       <h2>
         {!registroToEdict
           ? "Adding a new Project to the list."
-          : "Editing... What do you want change of the Task?"}
+          : "Editing... What do you want change of the Project?"}
       </h2>
       {loading && <Loader />}
       {error && (
@@ -187,15 +246,17 @@ function CrudFormListEntry(props) {
       <br />
       <br />
       <br />
-      <TableListProject
+      {/* <TableListProject
         setForm={setForm}
         setRegistroToEdict={setRegistroToEdict}
         registroToEdict={registroToEdict}
-      />
+        records={projectsDB}
+        onDelete={handleDelete}
+        error={error}
+        loading={loading}
+      /> */}
     </div>
   );
 }
-export default CrudFormListEntry;
 
-
-*/
+export default CrudFormListTaskEntry;
