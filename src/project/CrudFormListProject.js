@@ -103,12 +103,12 @@ function CrudFormListProject() {
 
   //!get CLIENTS' table
   useEffect(() => {
-    //setLoading(true); //show loader
+    setLoading(true); //show loader
     fetch(URL_CLIENT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
-        //setLoading(false); //show loader
+        setLoading(false); //Hide loader
       })
       .catch((err) => console.log(err));
   }, []);
@@ -122,7 +122,6 @@ function CrudFormListProject() {
         setProjectsDB(json); //Set the ProjectsDB
         setError(null); // Isn't error
         setLoading(false); //Loader off
-        console.log();
       })
       .catch((err) => {
         setProjectsDB(null);

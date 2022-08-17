@@ -12,11 +12,13 @@ function ListSearchProject() {
 
   //!Get PROJECTS' table in the VE ProjectsDB
   useEffect(() => {
+    setLoading(true); //show loader
     fetch(URL_PROJECT) //Do Req
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProjectsDB(json); //Set the ProjectsDB
         setError(null); // Isn't error
+        setLoading(false); //show loader
       })
       .catch((err) => {
         setProjectsDB([]);

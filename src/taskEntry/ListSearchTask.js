@@ -11,11 +11,13 @@ function ListSearchTask(props) {
 
   //!Get TASK' table in the VE taskEntryDB
   useEffect(() => {
+    setLoading(true); //show loader
     fetch(URL_TASK)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setTaskEntriesDB(json);
         setError(null);
+        setLoading(false);
       })
       .catch((err) => {
         setTaskEntriesDB([]);

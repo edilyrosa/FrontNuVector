@@ -1,9 +1,13 @@
 import React from "react";
+import "../stylies/LoaderStyle.css";
 
 function Loader(props) {
   return (
-    <div>
-      <h3>Soy un loader</h3>
+    <div class="lds-ring">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
   );
 }

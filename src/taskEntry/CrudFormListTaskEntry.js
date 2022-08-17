@@ -131,20 +131,24 @@ function CrudFormListTaskEntry() {
 
   //!get CLIENTS' table
   useEffect(() => {
+    setLoading(true); //show loader
     fetch(URL_CLIENT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
+        setLoading(false); //show loader
       })
       .catch((err) => console.log(err));
   }, []);
 
   //!Get PROJECTS' table  in the VE ProjectsDB
   useEffect(() => {
+    setLoading(true); //show loader
     fetch(URL_PROJECT) //Do Req
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProjectsDB(json);
+        setLoading(false); //show loader
       })
       .catch((err) => console.log(err));
   }, []);
@@ -168,40 +172,48 @@ function CrudFormListTaskEntry() {
 
   //!get CONTRACTOR'S table
   useEffect(() => {
+    setLoading(true); //show loader
     fetch(URL_CONTRACTOR)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setContractorsDB(json);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
 
   //!get PRODUCT'S table
   useEffect(() => {
+    setLoading(true); //show loader
     fetch(URL_PRODUCT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProductDB(json);
+        setLoading(false); //show loader
       })
       .catch((err) => console.log(err));
   }, []);
 
   //!get ACTIVITY'S table
   useEffect(() => {
+    setLoading(true); //show loader
     fetch(URL_ACTIVITY)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setActivitiesDB(json);
+        setLoading(false); //show loader
       })
       .catch((err) => console.log(err));
   }, []);
 
   //!get CATEGORY'S table
   useEffect(() => {
+    setLoading(true); //show loader
     fetch(URL_CATEGORY)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setCategoriesDB(json);
+        setLoading(false); //show loader
       })
       .catch((err) => console.log(err));
   }, []);
