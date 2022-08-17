@@ -26,11 +26,11 @@ textarea {
   font-family: inherit;
 }
 
-input[type="text"],
+/* input[type="text"],
 input[type="number"],
 :empty {
   border: medium solid rosybrown;
-}
+} */
 
 button,
 input[type="submit"],

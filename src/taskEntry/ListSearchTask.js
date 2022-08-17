@@ -7,6 +7,7 @@ function ListSearchTask(props) {
   const [taskEntriesDB, setTaskEntriesDB] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   //!Get TASK' table in the VE taskEntryDB
   useEffect(() => {
@@ -22,38 +23,59 @@ function ListSearchTask(props) {
       });
   }, [setTaskEntriesDB]);
 
+  //!EVENT INPUT SEARCH
+  const onSearchValueChange = (e) => {
+    setSearchValue(e.target.value); //!get the text written
+  };
+  let searchedTask = [];
+  if (searchValue.length === 0) {
+    searchedTask = taskEntriesDB;
+  } else {
+    searchedTask = taskEntriesDB.filter((el) => {
+      const dbText = el.description.toLowerCase();
+      const searchText = searchValue.toLowerCase();
+      return dbText.includes(searchText);
+    });
+  }
   return (
     <div>
       <br />
       <br />
       <h1>ALL YOUR TASK ENTRIES.</h1>
       {loading && <Loader />}
-      <br /> <br /> <br /> <br />
+
       <div className="listProjects">
+        <input
+          className="TodoSearch"
+          placeholder="Search your Task Entry by its Description"
+          value={searchValue}
+          onChange={onSearchValueChange}
+        />
+        <br /> <br /> <br /> <br />
         <table>
           <thead>
             <tr>
-              <th>Task's Entry id</th>
+              <th>Task's Entry ID</th>
               <th>Date</th>
               <th>Hours</th>
               <th>Billable</th>
-              <th>Contractor</th>
-              <th>Client</th>
-              <th>Project</th>
-              <th>Product</th>
-              <th>Activity</th>
-              <th>Category</th>
+              <th>Contractor ID</th>
+              <th>Client ID</th>
+              <th>Project ID</th>
+              <th>Product ID</th>
+              <th>Activity ID</th>
+              <th>Category ID</th>
               <th>Description</th>
             </tr>
           </thead>
 
           <tbody>
-            {taskEntriesDB.length === 0 ? (
+            {searchedTask.length === 0 ? (
               <tr>
                 <td colSpan={12}>You don't have Task Entries.</td>
               </tr>
             ) : (
-              taskEntriesDB.map((el) => (
+              searchedTask.map((el) => (
                 <tr key={el.id}>
                   <td>{el.id}</td>
                   <td>{el.date}</td>

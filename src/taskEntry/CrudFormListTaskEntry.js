@@ -328,7 +328,7 @@ function CrudFormListTaskEntry() {
             {contractorsDB.map((contractor) => (
               <option value={contractor.id}>
                 <p>
-                  Contractor's Name: {contractor.name} ⇒ ID: {contractor.id}
+                  Contractor's Name: {contractor.fullname} ⇒ ID: {contractor.id}
                 </p>
               </option>
             ))}
