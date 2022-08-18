@@ -70,8 +70,8 @@ function Header(props) {
               </ul>
             </li>
             <li>
-              {" "}
-              <Link to="./Graphs">Status Project/Time Graphs</Link>
+              {/* //!GRAPH */}
+              <Link to="./graph-by-client">Project/Time Graph</Link>
             </li>
             <li>
               <a

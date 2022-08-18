@@ -82,4 +82,24 @@ const deleteRegistro = (URL_ID, id, entityDB, setterDB, setError, msg) => {
   }
 };
 
-export { createRegistro, updateRegistro, deleteRegistro };
+const getOneRegister = (URL_ID, setLoading, setterDB, setError) => {
+  //Parametro registro es el obj registro del from.
+  let options = {
+    headers: {
+      "content-type": "application/json",
+      // acept: "application/json",
+    },
+  };
+  setLoading(true);
+  fetch(URL_ID, options)
+    .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+    .then((json) => {
+      setterDB(json);
+      setLoading(false);
+    })
+    .catch((err) => {
+      setError(err);
+    });
+};
+
+export { createRegistro, updateRegistro, deleteRegistro, getOneRegister };

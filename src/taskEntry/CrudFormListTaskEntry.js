@@ -14,6 +14,7 @@ import {
   URL_PRODUCT,
   URL_ACTIVITY,
   URL_CATEGORY,
+  URL_PROJECT_MORE_ID,
 } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
@@ -72,12 +73,12 @@ function TableListTaskEntry({
                 <td>{el.date}</td>
                 <td>{el.duration}</td>
                 <td>{el.billable ? "Yes" : "No"}</td>
-                <td>{el.contractor_id}</td>
-                <td>{el.client_id}</td>
-                <td>{el.project_id}</td>
-                <td>{el.product_id}</td>
-                <td>{el.activity_id}</td>
-                <td>{el.category_id}</td>
+                <td>{el.Contractor ? el.Contractor.fullname : null}</td>
+                <td>{el.Client ? el.Client.name : null}</td>
+                <td>{el.Project ? el.Project.name : null}</td>
+                <td>{el.Product ? el.Product.description : null}</td>
+                <td>{el.Activity ? el.Activity.description : null}</td>
+                <td>{el.Category ? el.Category.description : null}</td>
                 <td>{el.description}</td>
                 <td className="buttonList">
                   <button
@@ -221,6 +222,7 @@ function CrudFormListTaskEntry() {
   //////////////////////////////////
   //!Set project's varible from info form
   const handleChange = (e) => {
+    console.log(e.target.name, e.target.value);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   const handleChecked = (e) => {
@@ -229,11 +231,13 @@ function CrudFormListTaskEntry() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const getClient = () => {
+      //todoCONSULTA SQL para traerme nombre del cliente y pintarlo en tabla project
+    };
     //!Validation before POST
     if (
       !form.duration ||
       !form.description ||
-      !form.client_id ||
       !form.product_id ||
       !form.project_id ||
       !form.activity_id ||
@@ -289,7 +293,9 @@ function CrudFormListTaskEntry() {
       "You have deleted the Task Entry successfully"
     );
   };
-
+  const selectedProject = projectsDB.find(
+    (project) => project.id === +form.project_id
+  );
   return (
     <div>
       <br />
@@ -352,6 +358,7 @@ function CrudFormListTaskEntry() {
           <h3>Select the Task's Project.</h3>
           <br />
           <select name="project_id" onChange={handleChange}>
+            <option>Select a project</option>
             {projectsDB.map((project) => (
               <option value={project.id}>
                 <p>
@@ -373,9 +380,16 @@ function CrudFormListTaskEntry() {
         <label>
           <h3>Select the Task's Client.</h3>
           <br />
-          <select name="client_id" onChange={handleChange}>
+          <option>Select a project</option>
+          <select
+            name="client_id"
+            onChange={handleChange}
+            disabled
+            value={selectedProject ? selectedProject.Client.id : null}
+          >
+            <option>Client</option>
             {clients.map((client) => (
-              <option value={client.id}>
+              <option key={client.id} value={client.id}>
                 <p>
                   Client's Name: {client.name} ⇒ ID: {client.id}
                 </p>
@@ -396,7 +410,7 @@ function CrudFormListTaskEntry() {
           <br />
           <select name="product_id" onChange={handleChange}>
             {productDB.map((product) => (
-              <option value={product.id}>
+              <option value={product.id} key={product.id}>
                 <p>
                   Product's Description: {product.description} ⇒ ID:{" "}
                   {product.id}
@@ -413,7 +427,7 @@ function CrudFormListTaskEntry() {
           <br />
           <select name="activity_id" onChange={handleChange}>
             {activitiesDB.map((activity) => (
-              <option value={activity.id}>
+              <option value={activity.id} key={activity.id}>
                 <p>
                   Activity's Description: {activity.description} ⇒ ID:{" "}
                   {activity.id}
@@ -430,7 +444,7 @@ function CrudFormListTaskEntry() {
           <br />
           <select name="category_id" onChange={handleChange}>
             {categoriesDB.map((category) => (
-              <option value={category.id}>
+              <option value={category.id} key={category.id}>
                 <p>
                   Category's Description: {category.description} ⇒ ID:{" "}
                   {category.id}

@@ -6,6 +6,7 @@ import CrudFormListProject from "./project/CrudFormListProject";
 import CrudFormListTaskEntry from "./taskEntry/CrudFormListTaskEntry";
 import ListSearchTask from "./taskEntry/ListSearchTask";
 import CrudFormListClient from "./client/CrudFormListClient"; //TODO hacerlaaaa
+import GraphBar from "./graphs/GraphBar";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         {/* //!HOME */}
         <Route exact path="/" element={<Home />} />
 
-        {/* //todo: CLIENT  */}
+        {/* //!CLIENT  */}
         <Route exact path="/form-client" element={<CrudFormListClient />} />
 
         {/* //!PROJECT */}
@@ -30,9 +31,13 @@ function App() {
         {/* //!TASK ENTRY*/}
         <Route exact path="/form-tack" element={<CrudFormListTaskEntry />} />
         <Route exact path="/list-search-task" element={<ListSearchTask />} />
+
+        {/* //!GRAPH*/}
+        <Route exact path="/graph-by-client" element={<GraphBar />} />
       </Routes>
     </>
   );
 }
 //los COMPONENTES (funcion sin ejecutar) devuelven ELEMENTOS (la tag)
 export default App;
+//graph-by-client

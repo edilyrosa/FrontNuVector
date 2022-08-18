@@ -167,6 +167,7 @@ function CrudFormListProject() {
         setLoading,
         "You have updated the Task Entry successfully"
       );
+      //TODOwindow.scrollTo({});
     }
     handleReset();
     //TODO: REDIRECCION AL TOP=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
