@@ -228,6 +228,11 @@ function CrudFormListTaskEntry() {
   const handleChecked = (e) => {
     setForm({ ...form, [e.target.name]: e.target.checked });
   };
+
+  const selectedProject = projectsDB.find(
+    (project) => project.id === +form.project_id
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -252,7 +257,7 @@ function CrudFormListTaskEntry() {
     if (form.id === null) {
       createRegistro(
         URL_TASK,
-        form,
+        { ...form, client_id: selectedProject.Client.id },
         setLoading,
         setTaskEntriesDB,
         setError,
@@ -293,9 +298,7 @@ function CrudFormListTaskEntry() {
       "You have deleted the Task Entry successfully"
     );
   };
-  const selectedProject = projectsDB.find(
-    (project) => project.id === +form.project_id
-  );
+
   return (
     <div>
       <br />
