@@ -20,7 +20,7 @@ function TableListClient({
   loading,
 }) {
   return (
-    <div>
+    <div className="div">
       <br />
       <br />
       <h1>CHOOSE THE CLIENT TO UPDATE OR DELETE.</h1>
@@ -35,6 +35,7 @@ function TableListClient({
         <thead>
           <tr>
             <th>Client's id</th>
+            <th>Client's Name</th>
             <th>Client's City</th>
             <th>Client's State</th>
             <th>Client's Country</th>
@@ -65,7 +66,10 @@ function TableListClient({
                       setRegistroToEdict(el);
                       setForm(el);
                       console.log(el);
-                      //TODO: window.scrollTo = "0px";
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
                     }}
                   >
                     Update
@@ -145,7 +149,6 @@ function CrudFormListClient() {
         setError,
         "You have sent the Project successfully"
       );
-
       //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
     } else {
       //!With ID, is flag to make the UPDATE()

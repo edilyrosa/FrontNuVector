@@ -14,7 +14,6 @@ import {
   URL_PRODUCT,
   URL_ACTIVITY,
   URL_CATEGORY,
-  URL_PROJECT_MORE_ID,
 } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
@@ -86,7 +85,10 @@ function TableListTaskEntry({
                       setRegistroToEdict(el); //!Deja de ser NULL, cambia titulo
                       setForm(el);
                       console.log(el);
-                      //TODO: window.scrollTo = "0px";
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
                     }}
                   >
                     Update
@@ -156,14 +158,13 @@ function CrudFormListTaskEntry() {
 
   //!Get TASKENTRY' table  in the VE ProjectsDB
   useEffect(() => {
-    setLoading(true); //show loader
+    setLoading(true);
     fetch(URL_TASK) //Do Req
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setTaskEntriesDB(json); //Set the ProjectsDB
         setError(null); // Isn't error
-        setLoading(false); //Loader off
-        console.log();
+        setLoading(false);
       })
       .catch((err) => {
         setTaskEntriesDB(null);
@@ -219,7 +220,6 @@ function CrudFormListTaskEntry() {
       .catch((err) => console.log(err));
   }, []);
 
-  //////////////////////////////////
   //!Set project's varible from info form
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value);
@@ -236,9 +236,6 @@ function CrudFormListTaskEntry() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const getClient = () => {
-      //todoCONSULTA SQL para traerme nombre del cliente y pintarlo en tabla project
-    };
     //!Validation before POST
     if (
       !form.duration ||
@@ -320,7 +317,7 @@ function CrudFormListTaskEntry() {
       <form onSubmit={handleSubmit}>
         <br />
 
-        <h3>Project's Date</h3>
+        <h3>Tak's Date</h3>
         <br />
         <input
           type="date"
@@ -346,8 +343,9 @@ function CrudFormListTaskEntry() {
           <h3>Select the Task's Contractor.</h3>
           <br />
           <select name="contractor_id" onChange={handleChange}>
+            <option>Select a Contractor</option>
             {contractorsDB.map((contractor) => (
-              <option value={contractor.id}>
+              <option value={contractor.id} key={contractor.id}>
                 <p>
                   Contractor's Name: {contractor.fullname} ⇒ ID: {contractor.id}
                 </p>
@@ -361,9 +359,9 @@ function CrudFormListTaskEntry() {
           <h3>Select the Task's Project.</h3>
           <br />
           <select name="project_id" onChange={handleChange}>
-            <option>Select a project</option>
+            <option>Select a Project</option>
             {projectsDB.map((project) => (
-              <option value={project.id}>
+              <option value={project.id} key={project.id}>
                 <p>
                   Project's Name: {project.name} ⇒ ID: {project.id}
                 </p>
@@ -383,7 +381,7 @@ function CrudFormListTaskEntry() {
         <label>
           <h3>Select the Task's Client.</h3>
           <br />
-          <option>Select a project</option>
+
           <select
             name="client_id"
             onChange={handleChange}
@@ -412,6 +410,7 @@ function CrudFormListTaskEntry() {
           <h3>Select the Task's Product.</h3>
           <br />
           <select name="product_id" onChange={handleChange}>
+            <option>Select a Product</option>
             {productDB.map((product) => (
               <option value={product.id} key={product.id}>
                 <p>
@@ -429,6 +428,7 @@ function CrudFormListTaskEntry() {
           <h3>Select the Task's Activity.</h3>
           <br />
           <select name="activity_id" onChange={handleChange}>
+            <option>Select a Activity</option>
             {activitiesDB.map((activity) => (
               <option value={activity.id} key={activity.id}>
                 <p>
@@ -446,6 +446,7 @@ function CrudFormListTaskEntry() {
           <h3>Select the Task's Category.</h3>
           <br />
           <select name="category_id" onChange={handleChange}>
+            <option>Select a Category</option>
             {categoriesDB.map((category) => (
               <option value={category.id} key={category.id}>
                 <p>

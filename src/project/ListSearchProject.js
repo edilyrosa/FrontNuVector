@@ -79,7 +79,7 @@ function ListSearchProject() {
                 <tr key={el.id}>
                   <td>{el.id}</td>
                   <td>{el.name}</td>
-                  <td>{el.client_id}</td>
+                  <td>{el.Client.name}</td>
                   <td>{el.description}</td>
                   <td>{el.active ? "Yes" : "No"}</td>
                 </tr>

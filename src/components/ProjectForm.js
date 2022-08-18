@@ -22,7 +22,7 @@ function ProjectForm() {
           <br />
           <select name="client_id" defaultValue="Client's List">
             {clients.map((client) => (
-              <option value={client.id}>
+              <option value={client.id} key={client.id}>
                 {client.name} - {client.id}{" "}
               </option>
             ))}

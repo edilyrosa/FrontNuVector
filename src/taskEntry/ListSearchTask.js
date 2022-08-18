@@ -11,7 +11,7 @@ function ListSearchTask(props) {
 
   //!Get TASK' table in the VE taskEntryDB
   useEffect(() => {
-    setLoading(true); //show loader
+    setLoading(true);
     fetch(URL_TASK)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
@@ -57,16 +57,16 @@ function ListSearchTask(props) {
         <table>
           <thead>
             <tr>
-              <th>Task's Entry ID</th>
+              <th>Task's Entry id</th>
               <th>Date</th>
               <th>Hours</th>
               <th>Billable</th>
-              <th>Contractor ID</th>
-              <th>Client ID</th>
-              <th>Project ID</th>
-              <th>Product ID</th>
-              <th>Activity ID</th>
-              <th>Category ID</th>
+              <th>Contractor</th>
+              <th>Client</th>
+              <th>Project</th>
+              <th>Product</th>
+              <th>Activity</th>
+              <th>Category</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -83,12 +83,12 @@ function ListSearchTask(props) {
                   <td>{el.date}</td>
                   <td>{el.duration}</td>
                   <td>{el.billable ? "Yes" : "No"}</td>
-                  <td>{el.contractor_id}</td>
-                  <td>{el.client_id}</td>
-                  <td>{el.project_id}</td>
-                  <td>{el.product_id}</td>
-                  <td>{el.activity_id}</td>
-                  <td>{el.category_id}</td>
+                  <td>{el.Contractor ? el.Contractor.fullname : null}</td>
+                  <td>{el.Client ? el.Client.name : null}</td>
+                  <td>{el.Project ? el.Project.name : null}</td>
+                  <td>{el.Product ? el.Product.description : null}</td>
+                  <td>{el.Activity ? el.Activity.description : null}</td>
+                  <td>{el.Category ? el.Category.description : null}</td>
                   <td>{el.description}</td>
                 </tr>
               ))

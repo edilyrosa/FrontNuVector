@@ -4,47 +4,12 @@ import { Bar } from "@ant-design/plots";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../index";
-import { URL_CLIENT, URL_PROJECT, URL_TASK } from "../helpers/ApiURL";
+import { URL_TASK } from "../helpers/ApiURL";
 
 const GraphBar = () => {
-  const [clients, setClients] = useState([]);
-  const [projectsDB, setProjectsDB] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [taskEntriesDB, setTaskEntriesDB] = useState([]);
-
-  //!Get PROJECTS' table in the VE ProjectsDB
-  useEffect(() => {
-    setLoading(true); //show loader
-    fetch(URL_PROJECT) //Do Req
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
-      .then((json) => {
-        setProjectsDB(json); //Set the ProjectsDB
-        setError(null); // Isn't error
-        setLoading(false); //show loader
-      })
-      .catch((err) => {
-        setProjectsDB([]);
-        setError(err);
-      });
-  }, []);
-
-  //!get CLIENTS' table
-  useEffect(() => {
-    setLoading(true); //show loader
-    fetch(URL_CLIENT) //Do Req
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
-      .then((json) => {
-        setClients(json); //Set the ProjectsDB
-        setError(null); // Isn't error
-        setLoading(false); //Loader off
-        console.log();
-      })
-      .catch((err) => {
-        setClients(null);
-        setError(err);
-      });
-  }, []);
 
   //!Get TASKENTRY' table  in the VE ProjectsDB
   useEffect(() => {
@@ -63,11 +28,7 @@ const GraphBar = () => {
       });
   }, []);
 
-  const NameClient = setProjectsDB(...projectsDB, clients);
-
-  const data = [];
-
-  data = projectsDB.map((el) => ({
+  const data = taskEntriesDB.map((el) => ({
     year: el.name,
     value: el.cient_id,
   }));
@@ -83,7 +44,7 @@ const GraphBar = () => {
   };
   return (
     <>
-      <h1>GRAPH BY PROJECT-CLIENT</h1>
+      <h1>GRAPH BY PROJECT${taskEntriesDB.Client.name}</h1>
       {loading && <Loader />}
       {error && (
         <Message

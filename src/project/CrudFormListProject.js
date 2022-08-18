@@ -58,7 +58,7 @@ function TableListProject({
               <tr key={el.id}>
                 <td>{el.id}</td>
                 <td>{el.name}</td>
-                <td>{el.client_id}</td>
+                <td>{el.Client ? el.Client.name : null}</td>
                 <td>{el.description}</td>
                 <td>{el.active ? "Yes" : "No"}</td>
                 <td className="buttonList">
@@ -67,7 +67,10 @@ function TableListProject({
                       setRegistroToEdict(el); //!Deja de ser NULL, cambia titulo
                       setForm(el);
                       console.log(el);
-                      //TODO: window.scrollTo = "0px";
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
                     }}
                   >
                     Update
@@ -167,10 +170,8 @@ function CrudFormListProject() {
         setLoading,
         "You have updated the Task Entry successfully"
       );
-      //TODOwindow.scrollTo({});
     }
     handleReset();
-    //TODO: REDIRECCION AL TOP=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
   };
 
   const handleReset = (e) => {
@@ -214,8 +215,9 @@ function CrudFormListProject() {
           <h3>Select the Client of this Porject.</h3>
           <br />
           <select name="client_id" onChange={handleChange}>
+            <option>Select a Client</option>
             {clients.map((client) => (
-              <option value={client.id}>
+              <option value={client.id} key={client.id}>
                 <p>
                   Client's Name: {client.name} ⇒ ID: {client.id}
                 </p>
