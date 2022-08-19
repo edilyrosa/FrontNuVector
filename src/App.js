@@ -1,43 +1,107 @@
-import { Route, Routes } from "react-router-dom"; //Route es el path donde debe renderizarse el elemento, ROUTES para indicar todas las rutas de la app y las envuelve
+import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import ListSearchProject from "./project/ListSearchProject";
 import CrudFormListProject from "./project/CrudFormListProject";
 import CrudFormListTaskEntry from "./taskEntry/CrudFormListTaskEntry";
 import ListSearchTask from "./taskEntry/ListSearchTask";
-import CrudFormListClient from "./client/CrudFormListClient"; //TODO hacerlaaaa
+import CrudFormListClient from "./client/CrudFormListClient";
 import GraphBar from "./graphs/GraphBar";
-
+import Login from "./components/Login";
+import Register from "./components/Register";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <>
-      <Header />
+      <AuthProvider>
+        <ProtectedRoute>
+          <Header />
+        </ProtectedRoute>
 
-      <Routes>
-        {/* //!HOME */}
-        <Route exact path="/" element={<Home />} />
+        <Routes>
+          {/* //!LOGIN*/}
+          <Route path="/login" element={<Login />} />
 
-        {/* //!CLIENT  */}
-        <Route exact path="/form-client" element={<CrudFormListClient />} />
+          {/* //!HOME */}
+          <Route
+            exact
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* //!PROJECT */}
-        <Route exact path="/form-project" element={<CrudFormListProject />} />
-        <Route
-          exact
-          path="/list-search-project"
-          element={<ListSearchProject />}
-        />
+          {/* //!CLIENT  */}
+          <Route
+            exact
+            path="/form-client"
+            element={
+              <ProtectedRoute>
+                <CrudFormListClient />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* //!TASK ENTRY*/}
-        <Route exact path="/form-tack" element={<CrudFormListTaskEntry />} />
-        <Route exact path="/list-search-task" element={<ListSearchTask />} />
+          {/* //!PROJECT */}
+          <Route
+            exact
+            path="/form-project"
+            element={
+              <ProtectedRoute>
+                <CrudFormListProject />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/list-search-project"
+            element={
+              <ProtectedRoute>
+                <ListSearchProject />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* //!GRAPH*/}
-        <Route exact path="/graph-by-client" element={<GraphBar />} />
-      </Routes>
+          {/* //!TASK ENTRY*/}
+          <Route
+            exact
+            path="/form-tack"
+            element={
+              <ProtectedRoute>
+                <CrudFormListTaskEntry />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/list-search-task"
+            element={
+              <ProtectedRoute>
+                <ListSearchTask />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* //!GRAPH*/}
+          <Route
+            exact
+            path="/graph-by-client"
+            element={
+              <ProtectedRoute>
+                <GraphBar />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* //!REGISTER*/}
+          <Route exact path="/register" element={<Register />} />
+        </Routes>
+      </AuthProvider>
     </>
   );
 }
-//los COMPONENTES (funcion sin ejecutar) devuelven ELEMENTOS (la tag)
+
 export default App;
-//graph-by-client

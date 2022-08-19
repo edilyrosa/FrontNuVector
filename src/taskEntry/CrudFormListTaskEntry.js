@@ -42,7 +42,7 @@ function TableListTaskEntry({
           bgColor={"#dc3545"}
         />
       )}
-      <table>
+      <table className="TableTask">
         <thead>
           <tr>
             <th>Task's Entry id</th>
@@ -132,38 +132,38 @@ function CrudFormListTaskEntry() {
   const [loading, setLoading] = useState(false);
   const [registroToEdict, setRegistroToEdict] = useState(null);
 
-  //!get CLIENTS' table
+  //!get CLIENTS' table State Var clients
   useEffect(() => {
-    setLoading(true); //show loader
+    setLoading(true);
     fetch(URL_CLIENT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
-        setLoading(false); //show loader
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  //!Get PROJECTS' table  in the VE ProjectsDB
+  //!Get PROJECTS' table  in State Var ProjectsDB
   useEffect(() => {
-    setLoading(true); //show loader
-    fetch(URL_PROJECT) //Do Req
+    setLoading(true);
+    fetch(URL_PROJECT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProjectsDB(json);
-        setLoading(false); //show loader
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  //!Get TASKENTRY' table  in the VE ProjectsDB
+  //!Get TASKENTRY' table  in State Var TaskEntriesDB
   useEffect(() => {
     setLoading(true);
-    fetch(URL_TASK) //Do Req
+    fetch(URL_TASK)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
-        setTaskEntriesDB(json); //Set the ProjectsDB
-        setError(null); // Isn't error
+        setTaskEntriesDB(json);
+        setError(null);
         setLoading(false);
       })
       .catch((err) => {
@@ -186,36 +186,36 @@ function CrudFormListTaskEntry() {
 
   //!get PRODUCT'S table
   useEffect(() => {
-    setLoading(true); //show loader
+    setLoading(true);
     fetch(URL_PRODUCT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProductDB(json);
-        setLoading(false); //show loader
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
 
   //!get ACTIVITY'S table
   useEffect(() => {
-    setLoading(true); //show loader
+    setLoading(true);
     fetch(URL_ACTIVITY)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setActivitiesDB(json);
-        setLoading(false); //show loader
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
 
   //!get CATEGORY'S table
   useEffect(() => {
-    setLoading(true); //show loader
+    setLoading(true);
     fetch(URL_CATEGORY)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setCategoriesDB(json);
-        setLoading(false); //show loader
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -275,7 +275,6 @@ function CrudFormListTaskEntry() {
       );
     }
     handleReset();
-    //TODO: REDIRECCION AL TOP=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
   };
 
   const handleReset = (e) => {

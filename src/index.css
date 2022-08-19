@@ -25,7 +25,6 @@ body {
 #root {
   padding-left: 20px;
   padding-right: 20px;
-  margin: 0 24px;
   position: relative;
   max-width: 100%;
   --primary-color: rgb(22, 22, 66);
@@ -136,3 +135,7 @@ p {
   overflow: auto;
   color: var(--primary-color);
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -26,12 +26,6 @@ textarea {
   font-family: inherit;
 }
 
-/* input[type="text"],
-input[type="number"],
-:empty {
-  border: medium solid rosybrown;
-} */
-
 button,
 input[type="submit"],
 input[type="reset"] {
@@ -43,7 +37,7 @@ input[type="reset"] {
   background-color: #eee;
   color: #444;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 1;
   text-transform: none;
   text-decoration: none;
@@ -60,7 +54,9 @@ hr {
 table {
   border-spacing: 0;
   border-collapse: collapse;
-  width: 100%;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
 }
 th,
 td {

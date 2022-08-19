@@ -64,7 +64,7 @@ function TableListProject({
                 <td className="buttonList">
                   <button
                     onClick={(e) => {
-                      setRegistroToEdict(el); //!Deja de ser NULL, cambia titulo
+                      setRegistroToEdict(el); //!Flag
                       setForm(el);
                       console.log(el);
                       window.scrollTo({
@@ -106,25 +106,25 @@ function CrudFormListProject() {
 
   //!get CLIENTS' table
   useEffect(() => {
-    setLoading(true); //show loader
+    setLoading(true);
     fetch(URL_CLIENT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
-        setLoading(false); //Hide loader
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
 
   //!Get PROJECTS' table  in the VE ProjectsDB
   useEffect(() => {
-    setLoading(true); //show loader
-    fetch(URL_PROJECT) //Do Req
+    setLoading(true);
+    fetch(URL_PROJECT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
-        setProjectsDB(json); //Set the ProjectsDB
-        setError(null); // Isn't error
-        setLoading(false); //Loader off
+        setProjectsDB(json);
+        setError(null);
+        setLoading(false);
       })
       .catch((err) => {
         setProjectsDB(null);
@@ -139,6 +139,7 @@ function CrudFormListProject() {
   const handleChecked = (e) => {
     setForm({ ...form, [e.target.name]: e.target.checked });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -191,6 +192,7 @@ function CrudFormListProject() {
       "You have updated the Project successfully"
     );
   };
+
   return (
     <div>
       <br />
