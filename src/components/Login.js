@@ -50,15 +50,6 @@ function Login() {
     <div className="w-full max-w-xs m-auto">
       {error && <Alert message={error} />}
       <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       <h1>Login</h1>
       <br />
       <form

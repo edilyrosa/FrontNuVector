@@ -29,14 +29,7 @@ function Register() {
       {error && <Alert message={error} />}
       <br />
       <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <h1>Register</h1>
+      <h1>Register to App NuVector.</h1>
       <br />
       <form
         onSubmit={handleSubmit}

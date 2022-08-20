@@ -11,13 +11,15 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import BarChart from "./graphs/BarChart";
+import ProtectedComponent from "./components/ProtectedComponent";
 function App() {
   return (
     <>
       <AuthProvider>
-        <ProtectedRoute>
+        <ProtectedComponent>
           <Header />
-        </ProtectedRoute>
+        </ProtectedComponent>
 
         <Routes>
           {/* //!LOGIN*/}
@@ -91,7 +93,7 @@ function App() {
             path="/graph-by-client"
             element={
               <ProtectedRoute>
-                <GraphBar />
+                <BarChart />
               </ProtectedRoute>
             }
           />

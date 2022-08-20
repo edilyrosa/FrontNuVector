@@ -135,6 +135,7 @@ function CrudFormListProject() {
   //!Set project's varible to post at DB
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    console.log(form);
   };
   const handleChecked = (e) => {
     setForm({ ...form, [e.target.name]: e.target.checked });

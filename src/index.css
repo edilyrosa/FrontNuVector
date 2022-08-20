@@ -23,6 +23,8 @@ body {
 }
 
 #root {
+  /* //?este margen podria dar problemas con la grafica */
+  margin: 0 28px;
   padding-left: 20px;
   padding-right: 20px;
   position: relative;

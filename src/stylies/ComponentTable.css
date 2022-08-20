@@ -1,8 +1,8 @@
 .TableTask {
   padding: 0.5rem;
-  width: 90%;
-  margin-right: auto;
-  margin-left: auto;
+  width: 100%;
+
+  margin-left: -3rem;
   font-size: 1rem;
 }
 
@@ -31,7 +31,7 @@ hr {
 table {
   border-spacing: 1;
   border-collapse: collapse;
-  width: 80%;
+  width: 100%;
 }
 
 th,

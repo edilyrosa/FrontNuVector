@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -22,22 +28,25 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const signup = (email, password) => {
+  const signup = useCallback((email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
-  };
+  }, []);
 
-  const login = (email, password) => {
+  const login = useCallback((email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
-  };
+  }, []);
 
-  const loginWithGoogle = () => {
+  const loginWithGoogle = useCallback(() => {
     const googleProvider = new GoogleAuthProvider();
     return signInWithPopup(auth, googleProvider);
-  };
+  }, []);
 
-  const logout = () => signOut(auth);
+  const logout = useCallback(() => signOut(auth), []);
 
-  const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
+  const resetPassword = useCallback(
+    async (email) => sendPasswordResetEmail(auth, email),
+    []
+  );
 
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {

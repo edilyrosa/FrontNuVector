@@ -1,20 +1,41 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import { Bar } from "@ant-design/plots";
+import React, { useState, useEffect, useMemo } from "react";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../index";
 import "../stylies/ComponentForm.css";
-import useFetch from "../helpers/useFetch";
 import { URL_CLIENT, URL_PROJECT } from "../helpers/ApiURL";
 
-const GraphBar = () => {
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
+
+export default function BarChart() {
   const [clients, setClients] = useState([]);
   const [clientId, setClientId] = useState("");
   const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [projectsName, setProjectsName] = useState([]); //Array ProjectDB from DB
 
   //!get CLIENTS' table
   useEffect(() => {
@@ -43,49 +64,54 @@ const GraphBar = () => {
         setError(err);
       });
   }, []);
-
+  console.log(projectsDB);
   const projectsByClient = projectsDB.filter(
     (el) => el.client_id === parseInt(clientId)
   );
+  let cliName;
+  let cliPros = projectsByClient.map((el) => el.name);
 
-  console.log(projectsByClient);
-  let data = [];
-  //for (let i = 0; i < projectsByClient.legend; i++)
+  projectsByClient.map((el) => (cliName = el.Client.name));
 
-  projectsDB.map((el) => {
-    data = [
-      {
-        year: el.name,
-        value: el.id,
+  console.log(cliPros);
+
+  const scores = [6, 5, 5, 5, 3, 4, 6, 4, 5];
+  const labels = [...cliPros];
+
+  const options = {
+    fill: true,
+    animations: false,
+    scales: {
+      y: {
+        min: 0,
       },
-    ];
-  });
-
-  /*
-   data = [
-    {
-      year: "Projecto 1",
-      value: 2,
     },
-    {
-      year: "Projecto 2",
-      value: 4,
-    },
-    {
-      year: "Projecto 3",
-      value: 6,
-    },
-  ];
-*/
-  const config = {
-    data,
-    xField: "value",
-    yField: "year",
-    seriesField: "year",
-    legend: {
-      position: "top-left",
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+      },
     },
   };
+  console.log(labels);
+  const data = useMemo(
+    function () {
+      return {
+        datasets: [
+          {
+            label: "Projects",
+            tension: 0.3,
+            data: scores,
+            borderColor: "rgb(75, 192, 192)",
+            backgroundColor: "rgba(75, 192, 192, 0.3)",
+          },
+        ],
+        labels,
+      };
+    },
+    [labels, scores]
+  );
+  //SELECT SUM(duration) as total_hours from task_entries where client_id = '313123' group by project_id;
 
   return (
     <>
@@ -115,50 +141,13 @@ const GraphBar = () => {
             bgColor={"#dc3545"}
           />
         )}
-        {/* {<h2>Client ${dataEndpoint.name}</h2>} */}
+        {<h2>Client {cliName}.</h2>}
         <br />
       </div>
-      <Bar {...config} />;<span>Hours spent in each project</span>
+
+      <div className="App">
+        <Bar data={data} options={options} />
+      </div>
     </>
   );
-};
-
-export default GraphBar;
-
-/*
-import { Bar } from "@ant-design/plots";
-const GraphBar = () => {
-  const scores = [1, 2, 3, 4, 5, 6, 7, 8];
-  const labels = [100, 200, 300, 400, 500, 600, 700, 800];
-  const data = {
-  labels: ["project1.name", "projecto2.name", "project3.name"],
-  datasets: [
-       {
-         label: labels,
-         backgroundColor: "rgba(211, 57, 116)",
-         borderColor: "black",
-        borderWidth: 1,
-         hoverBackgroundColor: "rgba(211, 57, 116, 0.3)",
-         hoverBorderColor: "#ff0000",
-         data: scores
-       },
-     ],
-   };
-   const options = {
-     maintainAspectRatio: false,
-    responsive: true,
-   };
-
-  return (
-   <div style={{ width: "90%", height: "500px" }}>
-     <h2>Grafica</h2>
-
-       <Bar data={data} options={options} />
-     </div>
-
- );
-  }
-
-  export default GraphBar;
-
-  */
+}
