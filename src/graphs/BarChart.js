@@ -3,7 +3,7 @@ import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../index";
 import "../stylies/ComponentForm.css";
-import { URL_CLIENT, URL_PROJECT } from "../helpers/ApiURL";
+import { URL_CLIENT, URL_PROJECT, URL_TASK } from "../helpers/ApiURL";
 
 import {
   Chart as ChartJS,
@@ -35,8 +35,7 @@ export default function BarChart() {
   const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [projectsName, setProjectsName] = useState([]); //Array ProjectDB from DB
-
+  const [taskEntriesDB, setTaskEntriesDB] = useState([]);
   //!get CLIENTS' table
   useEffect(() => {
     setLoading(true);
@@ -64,18 +63,87 @@ export default function BarChart() {
         setError(err);
       });
   }, []);
-  console.log(projectsDB);
+
+  //!Get TASKENTRY' table  in State Var TaskEntriesDB
+  useEffect(() => {
+    setLoading(true);
+    fetch(URL_TASK)
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((json) => {
+        setTaskEntriesDB(json);
+        setError(null);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setTaskEntriesDB(null);
+        setError(err);
+      });
+  }, []);
+
   const projectsByClient = projectsDB.filter(
     (el) => el.client_id === parseInt(clientId)
   );
-  let cliName;
-  let cliPros = projectsByClient.map((el) => el.name);
 
-  projectsByClient.map((el) => (cliName = el.Client.name));
+  let cliName = projectsByClient.map((el) => el.Client.name); //!EL CLIENTE
+  let cliPros = projectsByClient.map((el) => el.name); //!LOS PROYECTOS DEL CLIENTE
+  let iDcliPros = projectsByClient.map((el) => el.id); //!LOS PROYECTOS DEL CLIENTE
 
-  console.log(cliPros);
+  let arrayByClient = taskEntriesDB.filter((task) => {
+    //!TAREAS POR ID CLIENTE
+    return parseInt(task.Client.id) === parseInt(clientId);
+  });
 
-  const scores = [6, 5, 5, 5, 3, 4, 6, 4, 5];
+  let objDefinitivo;
+
+  iDcliPros.map(
+    (ids) =>
+      (objDefinitivo = taskEntriesDB.map((task) =>
+        task.Project.id === parseInt(ids) ? task.duration : undefined
+      ))
+  );
+  console.log(iDcliPros);
+
+  taskEntriesDB.map(
+    (task) =>
+      (objDefinitivo = iDcliPros.map(
+        (ids) => task.project_id === parseInt(ids) || task.duration
+      ))
+  );
+
+  console.log(objDefinitivo);
+  /////////////////////////////////////
+  let hoursPros = arrayByClient.map((pro) => pro.duration); //!ARRAY DE HORAS POR TAREA
+
+  console.log(arrayByClient);
+  console.log(projectsByClient);
+  console.log(hoursPros);
+
+  //   const {horaspro, pros} = taskEntriesDB.map((el) =>
+  //   {...el.duration || el.duration}
+  //  { ...el.duration|| el.Project.id }
+  //   );
+  //   console.log(horaspro);
+  //!SUMAR HORAS DE TAREAS POR PROYECTO FALRA
+  ////////////////////////////////////////
+
+  //let proIguales = arrayByClient.filter( el =>
+  //el.name ===
+  //)
+
+  // let proDifName = arrayByClient.filter((all) => {
+  //   let cadaNombre = all.name;
+  //   return cadaNombre.includes(cadaNombre);
+  // });
+
+  // let proSameName = arrayByClient.filter((projectAll) => {
+  //  return taskEntriesDB.filter(
+  //    (task) => task.Project.name === projectName.name
+  //   );
+  //  });
+
+  //console.log(proSamename);
+
+  const scores = [...hoursPros];
   const labels = [...cliPros];
 
   const options = {

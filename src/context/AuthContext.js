@@ -56,7 +56,6 @@ export function AuthProvider({ children }) {
     });
     return () => unsubuscribe();
   }, []);
-  //setLoading(false); //!LO SAQUE DEL USE
   return (
     <authContext.Provider
       value={{
