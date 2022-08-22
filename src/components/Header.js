@@ -52,7 +52,7 @@ function Header(props) {
             </li>
             <li>
               {/* //!TASK ENTRY */}
-              <Link to="./list-search-task">Your task entries 🔽</Link>
+              <Link to="./list-search-task">Your Task Entries 🔽</Link>
               <ul>
                 <li>
                   <Link className="sonAssets sonAssets1" to="./form-tack">
@@ -79,7 +79,7 @@ function Header(props) {
                 target="_blank"
                 rel="noreferrer"
               >
-                Soport NuVector
+                Support NuVector
               </a>
             </li>
           </ul>
