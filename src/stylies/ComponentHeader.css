@@ -46,7 +46,6 @@ main {
 }
 
 .menu a {
-  /* color: var(--header-color); */
   color: var(--header-color);
   padding: 0 1vw;
   transition: all 0.3s easy-in-out;

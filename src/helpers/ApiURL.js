@@ -1,16 +1,16 @@
-const URL_CLIENT = "http://localhost:5000/client";
-const URL_CLIENT_ID = "http://localhost:5000/client/:";
+const URL_CLIENT = process.env.REACT_APP_URL_CLIENT;
+const URL_CLIENT_ID = process.env.REACT_APP_URL_CLIENT_ID;
 
-const URL_CONTRACTOR = "http://localhost:5000/contractor";
-const URL_PRODUCT = "http://localhost:5000/product";
-const URL_ACTIVITY = "http://localhost:5000/activity";
-const URL_CATEGORY = "http://localhost:5000/category";
+const URL_CONTRACTOR = process.env.REACT_APP_URL_CONTRACTOR;
+const URL_PRODUCT = process.env.REACT_APP_URL_PRODUCT;
+const URL_ACTIVITY = process.env.REACT_APP_URL_ACTIVITY;
+const URL_CATEGORY = process.env.REACT_APP_URL_CATEGORY;
 
-const URL_PROJECT = "http://localhost:5000/project";
-const URL_PROJECT_MORE_ID = "http://localhost:5000/project/:";
+const URL_PROJECT = process.env.REACT_APP_URL_PROJECT;
+const URL_PROJECT_MORE_ID = process.env.REACT_APP_URL_PROJECT_MORE_ID;
 
-const URL_TASK = "http://localhost:5000/taskentry";
-const URL_TASK_MORE_ID = "http://localhost:5000/taskentry/:";
+const URL_TASK = process.env.REACT_APP_URL_TASK;
+const URL_TASK_MORE_ID = process.env.REACT_APP_URL_TASK_MORE_ID;
 
 export {
   URL_CLIENT,

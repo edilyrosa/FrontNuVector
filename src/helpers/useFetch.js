@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-function useFetch(url) {
-  const [datas, setDatas] = useState(null);
+export const useFetch = (url) => {
+  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const abortController = new AbortController();
+    const abortController = new AbortController(); //!If the API doesnt answer, We'll abort the req
     const signal = abortController.signal;
 
     const fetchData = async () => {
@@ -17,18 +17,20 @@ function useFetch(url) {
         if (!res.ok) {
           let err = new Error("Fetch failed");
           err.status = res.status || "00";
-          err.statusText = res.statusText || "Fetch failed. Error 400";
+          err.statusText = res.statusText || "Error: Fetch failed.";
           throw err;
         }
         //?Success
         const json = await res.json();
         if (!signal.aborted) {
-          setDatas(json);
+          setData(json);
           setError(null);
         }
       } catch (error) {
-        if (!signal.aborted) setDatas(null);
-        setError(true);
+        if (!signal.aborted) {
+          setData(null);
+          setError(true);
+        }
       } finally {
         if (!signal.aborted) setLoading(false);
       }
@@ -37,7 +39,5 @@ function useFetch(url) {
     fetchData();
     return () => abortController.abort();
   }, [url]);
-  return { datas, error, loading };
-}
-
-export default useFetch;
+  return { data, error, loading };
+};

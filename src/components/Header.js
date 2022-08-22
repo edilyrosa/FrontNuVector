@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"; // en ves de <a> usamos este
+import { Link } from "react-router-dom";
 import "../stylies/ComponentHeader.css";
 import nuVectorIcon from "../assets/nuVector_favicon.ico";
 import {} from "../index.css";

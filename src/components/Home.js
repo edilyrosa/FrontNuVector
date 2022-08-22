@@ -30,8 +30,8 @@ function Home({ notification }) {
         </span>
         <p className="tagP">
           {notification
-            ? `Today is ${getDateActual()}, and you have ${numNotifications} Notificacion about your assests, please enter into "Our reports", and check the details.`
-            : `Today is   ${getDateActual()}, and you have  ${numNotifications} Notificacions, evething is Ok!`}
+            ? `Today is ${getDateActual()}, and you have ${numNotifications} Notification about your assests, please enter into "Our reports", and check the details.`
+            : `Today is   ${getDateActual()}, and you have  ${numNotifications} Notifications, everything is Ok!`}
         </p>
         <button
           className="bg-slate-200 hover:bg-slate-300 rounded py-2 px-4 text-black"

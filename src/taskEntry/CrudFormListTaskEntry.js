@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  createRegistro,
-  updateRegistro,
-  deleteRegistro,
+  createRecord,
+  updateRecord,
+  deleteRecord,
 } from "../helpers/CrudFuncions";
 import {
   URL_CLIENT,
@@ -23,8 +23,8 @@ import "../index";
 //!Child's Table
 function TableListTaskEntry({
   setForm,
-  setRegistroToEdict,
-  registroToEdict,
+  setRecordToEdict,
+  recordToEdict,
   records,
   onDelete,
   error,
@@ -82,7 +82,7 @@ function TableListTaskEntry({
                 <td className="buttonList">
                   <button
                     onClick={(e) => {
-                      setRegistroToEdict(el); //!Deja de ser NULL, cambia titulo
+                      setRecordToEdict(el);
                       setForm(el);
                       console.log(el);
                       window.scrollTo({
@@ -130,7 +130,7 @@ function CrudFormListTaskEntry() {
   const [categoriesDB, setCategoriesDB] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [registroToEdict, setRegistroToEdict] = useState(null);
+  const [recordToEdict, setRecordToEdict] = useState(null);
 
   //!get CLIENTS' table State Var clients
   useEffect(() => {
@@ -252,7 +252,7 @@ function CrudFormListTaskEntry() {
 
     //!Whiltout ID, is flag to make the POST()
     if (form.id === null) {
-      createRegistro(
+      createRecord(
         URL_TASK,
         { ...form, client_id: selectedProject.Client.id },
         setLoading,
@@ -260,11 +260,9 @@ function CrudFormListTaskEntry() {
         setError,
         "You have posted the Task Entry successfully"
       );
-
-      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
     } else {
       //!With ID, is flag to make the UPDATE()
-      updateRegistro(
+      updateRecord(
         `${URL_TASK_MORE_ID}${form.id}`,
         form,
         taskEntriesDB,
@@ -279,13 +277,13 @@ function CrudFormListTaskEntry() {
 
   const handleReset = (e) => {
     setForm(initialDB);
-    setRegistroToEdict(null);
+    setRecordToEdict(null);
     e.target.checked = false;
   };
 
   //!Making the DELETE()
   const handleDelete = (id, el) => {
-    deleteRegistro(
+    deleteRecord(
       `${URL_TASK_MORE_ID}${id}`,
       id,
       taskEntriesDB,
@@ -301,9 +299,9 @@ function CrudFormListTaskEntry() {
       <br />
       <h1>FORM OF TASK ENTRIES.</h1>
       <h2>
-        {!registroToEdict
+        {!recordToEdict
           ? "Adding a new Task Entry to the list."
-          : "Editing... What do you want change of the Task Entry?"}
+          : "Editing... What do you want to change of the Task Entry?"}
       </h2>
       {loading && <Loader />}
       {error && (
@@ -327,7 +325,7 @@ function CrudFormListTaskEntry() {
         <br />
 
         <label>
-          <h3>Task's Dutation</h3>
+          <h3>Task's Duration</h3>
           <input
             type="number"
             name="duration"
@@ -378,7 +376,7 @@ function CrudFormListTaskEntry() {
 
         <br />
         <label>
-          <h3>Select the Task's Client.</h3>
+          <h3>Task's Client.</h3>
           <br />
 
           <select
@@ -487,8 +485,8 @@ function CrudFormListTaskEntry() {
       {
         <TableListTaskEntry
           setForm={setForm}
-          setRegistroToEdict={setRegistroToEdict}
-          registroToEdict={registroToEdict}
+          setRecordToEdict={setRecordToEdict}
+          recordToEdict={recordToEdict}
           records={taskEntriesDB}
           onDelete={handleDelete}
           error={error}

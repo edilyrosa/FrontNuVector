@@ -6,12 +6,11 @@ import CrudFormListProject from "./project/CrudFormListProject";
 import CrudFormListTaskEntry from "./taskEntry/CrudFormListTaskEntry";
 import ListSearchTask from "./taskEntry/ListSearchTask";
 import CrudFormListClient from "./client/CrudFormListClient";
-import GraphBar from "./graphs/GraphBar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import BarChart from "./graphs/BarChart";
+import GraphBar from "./graphs/GraphBar";
 import ProtectedComponent from "./components/ProtectedComponent";
 function App() {
   return (
@@ -93,7 +92,7 @@ function App() {
             path="/graph-by-client"
             element={
               <ProtectedRoute>
-                <BarChart />
+                <GraphBar />
               </ProtectedRoute>
             }
           />

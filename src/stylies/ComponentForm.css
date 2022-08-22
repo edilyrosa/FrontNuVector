@@ -9,6 +9,7 @@ form {
   margin-right: auto;
   margin-left: auto;
 }
+
 .searchId {
   width: 30%;
   margin-left: auto;
@@ -21,6 +22,8 @@ form {
 }
 
 input[type="text"],
+input[type="number"],
+input[type="date"],
 textarea {
   border: medium solid rosybrown;
   border-radius: 0.25rem;
@@ -30,7 +33,7 @@ textarea {
   outline: none;
   display: block;
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 2rem;
   line-height: 1;
   background-color: white;
   font-family: inherit;
@@ -47,7 +50,6 @@ input[type="reset"] {
   background-color: #eee;
   color: #444;
   font-weight: bold;
-  font-size: 1.2rem;
   line-height: 1;
   text-transform: none;
   text-decoration: none;
@@ -55,6 +57,16 @@ input[type="reset"] {
   vertical-align: middle;
   cursor: pointer;
   font-family: inherit;
+  font-size: 1.5rem;
+}
+
+.butForm button,
+input[type="submit"],
+input[type="reset"] {
+  font-size: 2rem;
+  width: 20%;
+  height: 6rem;
+  margin-left: auto;
 }
 
 hr {
@@ -88,9 +100,9 @@ td {
   padding-top: 10px;
 }
 
-select,
-input[type="radio"] {
-  width: 50%;
+select {
+  width: 70%;
+  height: 5rem;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -98,9 +110,12 @@ input[type="radio"] {
   background-color: white;
   border: medium solid rosybrown;
   font-family: inherit;
+  font-size: 2rem;
 }
 
 input[type="checkbox"] {
+  width: 2.5rem;
+  height: 2.5rem;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -115,17 +130,11 @@ input[type="checkbox"]:hover {
   transform: rotate(360deg);
 }
 
-input[type="submit"],
-input[type="reset"] {
-  width: 20%;
-  height: 30px;
-  display: inline-block;
-}
 input[type="date"],
 input[type="number"] {
   display: block;
   border: medium solid rosybrown;
-  width: 15%;
+  width: 25%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -158,12 +167,6 @@ h3 {
   color: var(--primary-color);
 }
 
-h3 {
-  font-size: 2rem;
-  text-align: center;
-  font-weight: 100;
-  color: var(--primary-color);
-}
 p {
   text-align: justify;
   font-size: 1rem;

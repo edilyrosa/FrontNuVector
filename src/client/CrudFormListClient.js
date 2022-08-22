@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
-  createRegistro,
-  updateRegistro,
-  deleteRegistro,
+  createRecord,
+  updateRecord,
+  deleteRecord,
 } from "../helpers/CrudFuncions";
 import { URL_CLIENT, URL_CLIENT_ID } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
@@ -12,8 +12,8 @@ import "../index";
 
 function TableListClient({
   setForm,
-  setRegistroToEdict,
-  registroToEdict,
+  setRecordToEdict,
+  recordToEdict,
   records,
   onDelete,
   error,
@@ -63,7 +63,7 @@ function TableListClient({
                 <td className="buttonList">
                   <button
                     onClick={(e) => {
-                      setRegistroToEdict(el);
+                      setRecordToEdict(el);
                       setForm(el);
                       console.log(el);
                       window.scrollTo({
@@ -101,18 +101,17 @@ function CrudFormListClient() {
   const [clients, setClients] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [registroToEdict, setRegistroToEdict] = useState(null); //Flag-Project
+  const [recordToEdict, setRecordToEdict] = useState(null); //Flag-Project
 
-  //!get CLIENTS' table
+  //!get CLIENTS' table State Var clients
   useEffect(() => {
-    setLoading(true); //show loader
-    fetch(URL_CLIENT) //Do Req
+    setLoading(true);
+    fetch(URL_CLIENT)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
-        setClients(json); //Set the ProjectsDB
-        setError(null); // Isn't error
-        setLoading(false); //Loader off
-        console.log();
+        setClients(json);
+        setError(null);
+        setLoading(false);
       })
       .catch((err) => {
         setClients(null);
@@ -120,7 +119,7 @@ function CrudFormListClient() {
       });
   }, []);
 
-  //!Set project's varible to post at DB
+  //!Set client's varible to post at DB
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -141,7 +140,7 @@ function CrudFormListClient() {
     }
     //!Whiltout ID, is flag to make the POST()
     if (form.id === null) {
-      createRegistro(
+      createRecord(
         URL_CLIENT,
         form,
         setLoading,
@@ -149,10 +148,9 @@ function CrudFormListClient() {
         setError,
         "You have sent the Project successfully"
       );
-      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
     } else {
       //!With ID, is flag to make the UPDATE()
-      updateRegistro(
+      updateRecord(
         `${URL_CLIENT_ID}${form.id}`,
         form,
         clients,
@@ -163,17 +161,16 @@ function CrudFormListClient() {
       );
     }
     handleReset();
-    //TODO: REDIRECCION AL TOP=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
   };
 
   const handleReset = (e) => {
     setForm(initialDB);
-    setRegistroToEdict(null);
+    setRecordToEdict(null);
   };
 
   //!Making the DELETE()
   const handleDelete = (id, el) => {
-    deleteRegistro(
+    deleteRecord(
       `${URL_CLIENT_ID}${id}`,
       id,
       clients,
@@ -189,9 +186,9 @@ function CrudFormListClient() {
       <br />
       <h1>CLIENT'S FORM.</h1>
       <h2>
-        {!registroToEdict
+        {!recordToEdict
           ? "Adding a new Client to the list."
-          : "Editing... What do you want change of the Client?"}
+          : "Editing... What do you want to change of the Client?"}
       </h2>
       {loading && <Loader />}
       {error && (
@@ -257,8 +254,8 @@ function CrudFormListClient() {
       <br />
       <TableListClient
         setForm={setForm}
-        setRegistroToEdict={setRegistroToEdict}
-        registroToEdict={registroToEdict}
+        setRecordToEdict={setRecordToEdict}
+        recordToEdict={recordToEdict}
         records={clients}
         onDelete={handleDelete}
         error={error}

@@ -1,6 +1,4 @@
 .ModalBackground {
-  /* background-image: url(../assets/modalHome.webp); */
-  /* background-image: url(../assets/tech.jpg); */
   background-image: url(../assets/techTwo.jpg);
   position: fixed;
   top: 26rem;

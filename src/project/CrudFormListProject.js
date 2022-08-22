@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  createRegistro,
-  updateRegistro,
-  deleteRegistro,
+  createRecord,
+  updateRecord,
+  deleteRecord,
 } from "../helpers/CrudFuncions";
 import {
   URL_CLIENT,
@@ -17,8 +17,8 @@ import "../index";
 
 function TableListProject({
   setForm,
-  setRegistroToEdict,
-  registroToEdict,
+  setRecordToEdict,
+  recordToEdict,
   records,
   onDelete,
   error,
@@ -64,9 +64,8 @@ function TableListProject({
                 <td className="buttonList">
                   <button
                     onClick={(e) => {
-                      setRegistroToEdict(el); //!Flag
+                      setRecordToEdict(el); //!Flag
                       setForm(el);
-                      console.log(el);
                       window.scrollTo({
                         top: 0,
                         behavior: "smooth",
@@ -102,7 +101,7 @@ function CrudFormListProject() {
   const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [registroToEdict, setRegistroToEdict] = useState(null); //Flag-Project
+  const [recordToEdict, setRecordToEdict] = useState(null); //Flag-Project
 
   //!get CLIENTS' table
   useEffect(() => {
@@ -151,7 +150,7 @@ function CrudFormListProject() {
     }
     //!Whiltout ID, is flag to make the POST()
     if (form.id === null) {
-      createRegistro(
+      createRecord(
         URL_PROJECT,
         form,
         setLoading,
@@ -159,11 +158,9 @@ function CrudFormListProject() {
         setError,
         "You have sent the Project successfully"
       );
-
-      //TODO: REDIRECCION BOTTOM=0, DE ESTA MISMA PAGINA, PARA NOTAR LA ULTIMA INSERCION QUE ACABO DE HACER
     } else {
       //!With ID, is flag to make the UPDATE()
-      updateRegistro(
+      updateRecord(
         `${URL_PROJECT_MORE_ID}${form.id}`,
         form,
         projectsDB,
@@ -178,13 +175,13 @@ function CrudFormListProject() {
 
   const handleReset = (e) => {
     setForm(initialDB);
-    setRegistroToEdict(null);
+    setRecordToEdict(null);
     e.target.checked = false;
   };
 
   //!Making the DELETE()
   const handleDelete = (id, el) => {
-    deleteRegistro(
+    deleteRecord(
       `${URL_PROJECT_MORE_ID}${id}`,
       id,
       projectsDB,
@@ -200,9 +197,9 @@ function CrudFormListProject() {
       <br />
       <h1>PORJECT'S FORM.</h1>
       <h2>
-        {!registroToEdict
+        {!recordToEdict
           ? "Adding a new Project to the list."
-          : "Editing... What do you want change of the Project?"}
+          : "Editing... What do you want to change of the Project?"}
       </h2>
       {loading && <Loader />}
       {error && (
@@ -270,12 +267,14 @@ function CrudFormListProject() {
       <br />
       <TableListProject
         setForm={setForm}
-        setRegistroToEdict={setRegistroToEdict}
-        registroToEdict={registroToEdict}
+        setRecordToEdict={setRecordToEdict}
+        recordToEdict={recordToEdict}
         records={projectsDB}
         onDelete={handleDelete}
         error={error}
         loading={loading}
+        clients={clients}
+        setClients={setClients}
       />
     </div>
   );

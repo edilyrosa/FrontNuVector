@@ -1,21 +1,41 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import { Bar } from "@ant-design/plots";
+import React, { useState, useEffect, useMemo } from "react";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../index";
 import "../stylies/ComponentForm.css";
-import useFetch from "../helpers/useFetch";
-import { URL_CLIENT, URL_PROJECT } from "../helpers/ApiURL";
+import { URL_CLIENT, URL_PROJECT, URL_TASK } from "../helpers/ApiURL";
 
-const GraphBar = () => {
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
+
+export default function GraphBar() {
   const [clients, setClients] = useState([]);
   const [clientId, setClientId] = useState("");
   const [projectsDB, setProjectsDB] = useState([]); //Array ProjectDB from DB
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [taskEntriesDB, setTaskEntriesDB] = useState([]);
   //!get CLIENTS' table
   useEffect(() => {
     setLoading(true);
@@ -44,53 +64,108 @@ const GraphBar = () => {
       });
   }, []);
 
+  //!Get TASKENTRY' table  in State Var TaskEntriesDB
+  useEffect(() => {
+    setLoading(true);
+    fetch(URL_TASK)
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((json) => {
+        setTaskEntriesDB(json);
+        setError(null);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setTaskEntriesDB(null);
+        setError(err);
+      });
+  }, []);
+
   const projectsByClient = projectsDB.filter(
     (el) => el.client_id === parseInt(clientId)
   );
 
-  console.log(projectsByClient);
-  let data = [];
-  //for (let i = 0; i < projectsByClient.legend; i++)
+  let cliName = projectsByClient.map((el) => el.Client.name); //!EL CLIENTE
 
-  projectsDB.map((el) => {
-    data = [
-      {
-        year: el.name,
-        value: el.id,
-      },
-    ];
+  let cliPros = projectsByClient.map((el) => el.name); //!LOS PROYECTOS DEL CLIENTE
+  let iDcliPros = projectsByClient.map((el) => el.id); //!LOS PROYECTOS DEL CLIENTE
+
+  let arrayByClient = taskEntriesDB.filter((task) => {
+    //!TAREAS POR ID CLIENTE
+    return parseInt(task.Client.id) === parseInt(clientId);
   });
 
-  /*
-   data = [
-    {
-      year: "Projecto 1",
-      value: 2,
+  let objDefinitivo;
+
+  iDcliPros.map(
+    (ids) =>
+      (objDefinitivo = taskEntriesDB.map((task) =>
+        task.Project.id === parseInt(ids) ? task.duration : undefined
+      ))
+  );
+  console.log(iDcliPros);
+
+  taskEntriesDB.map(
+    (task) =>
+      (objDefinitivo = iDcliPros.map(
+        (ids) => task.project_id === parseInt(ids) || task.duration
+      ))
+  );
+
+  console.log(objDefinitivo);
+  /////////////////////////////////////
+  let hoursPros = arrayByClient.map((pro) => pro.duration); //!ARRAY DE HORAS POR TAREA
+
+  //!SUMAR HORAS DE TAREAS POR PROYECTO FALRA
+  ////////////////////////////////////////
+
+  const scores = [...hoursPros];
+  const labels = [...cliPros];
+
+  const options = {
+    fill: true,
+    Animations: true,
+    scales: {
+      y: {
+        min: 0,
+      },
     },
-    {
-      year: "Projecto 2",
-      value: 4,
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+      },
     },
-    {
-      year: "Projecto 3",
-      value: 6,
+  };
+  console.log(labels);
+  const data = useMemo(
+    function () {
+      return {
+        datasets: [
+          {
+            label: "Projects",
+            tension: 0.3,
+            data: scores,
+            borderColor: "rgb(75, 192, 192)",
+            backgroundColor: "rgba(75, 192, 192, 0.3)",
+          },
+        ],
+        labels,
+      };
     },
-  ];
-*/
-  const config = {
-    data,
-    xField: "value",
-    yField: "year",
-    seriesField: "year",
-    legend: {
-      position: "top-left",
-    },
+    [labels, scores]
+  );
+  //SELECT SUM(duration) as total_hours from task_entries where client_id = '313123' group by project_id;
+
+  const optionsStyle = {
+    width: "50%",
+    height: "6rem",
+    marginLeft: "auto",
+    marginRight: "auto",
   };
 
   return (
     <>
       <div>
-        <br />
         <br />
         <h1>GRAPH BY CLIENT.</h1>
         <label>
@@ -115,50 +190,13 @@ const GraphBar = () => {
             bgColor={"#dc3545"}
           />
         )}
-        {/* {<h2>Client ${dataEndpoint.name}</h2>} */}
+        {<h2>Client {cliName[0]}.</h2>}
         <br />
       </div>
-      <Bar {...config} />;<span>Hours spent in each project</span>
+      <div className="App" style={optionsStyle}>
+        <span style={{ color: "grey" }}>Hours by project</span>
+        <Bar data={data} options={options} />
+      </div>
     </>
   );
-};
-
-export default GraphBar;
-
-/*
-import { Bar } from "@ant-design/plots";
-const GraphBar = () => {
-  const scores = [1, 2, 3, 4, 5, 6, 7, 8];
-  const labels = [100, 200, 300, 400, 500, 600, 700, 800];
-  const data = {
-  labels: ["project1.name", "projecto2.name", "project3.name"],
-  datasets: [
-       {
-         label: labels,
-         backgroundColor: "rgba(211, 57, 116)",
-         borderColor: "black",
-        borderWidth: 1,
-         hoverBackgroundColor: "rgba(211, 57, 116, 0.3)",
-         hoverBorderColor: "#ff0000",
-         data: scores
-       },
-     ],
-   };
-   const options = {
-     maintainAspectRatio: false,
-    responsive: true,
-   };
-
-  return (
-   <div style={{ width: "90%", height: "500px" }}>
-     <h2>Grafica</h2>
-
-       <Bar data={data} options={options} />
-     </div>
-
- );
-  }
-
-  export default GraphBar;
-
-  */
+}

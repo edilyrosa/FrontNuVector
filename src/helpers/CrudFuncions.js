@@ -1,8 +1,7 @@
-const createRegistro = (URL, registro, setLoading, setterDB, setError, msg) => {
-  //Parametro registro es el obj registro del from.
+const createRecord = (URL, registro, setLoading, setterDB, setError, msg) => {
   let options = {
     method: "POST",
-    body: JSON.stringify(registro), //!aca va el registro  a postear
+    body: JSON.stringify(registro),
     headers: {
       "content-type": "application/json",
       // acept: "application/json",
@@ -12,7 +11,6 @@ const createRegistro = (URL, registro, setLoading, setterDB, setError, msg) => {
   fetch(URL, options)
     .then((res) => (res.ok ? res.json() : Promise.reject(res)))
     .then((json) => {
-      console.log(setterDB, json);
       setterDB((prev) => [...prev, json]);
       console.log(`${msg}${json}`);
       setLoading(false);
@@ -22,8 +20,7 @@ const createRegistro = (URL, registro, setLoading, setterDB, setError, msg) => {
     });
 };
 
-//*Metodo llamado por Hijo <FormCrud.js oyente de onSubmit
-const updateRegistro = (
+const updateRecord = (
   URL_ID,
   registro,
   EntityDB,
@@ -32,8 +29,6 @@ const updateRegistro = (
   setLoading,
   msg
 ) => {
-  //?Recorremos cada obj de Array clientsDB, cuando halle la coincidencia de ID, le asignara el registro EDITADO a ese ID, que le pertenece y se hace la actualizacion de info de ese registro..
-
   let options = {
     method: "PUT",
     body: JSON.stringify(registro),
@@ -56,9 +51,8 @@ const updateRegistro = (
     });
 };
 
-//*Metodo llamado por hijo < CrudTable.js oyente con el boton "Eliminar"
-const deleteRegistro = (URL_ID, id, entityDB, setterDB, setError, msg) => {
-  let isDelete = window.confirm(`Desea borrar el registro con ID = ${id}`);
+const deleteRecord = (URL_ID, id, entityDB, setterDB, setError, msg) => {
+  let isDelete = window.confirm(`Do you want to delete the record-ID = ${id}`);
   if (isDelete) {
     let options = {
       method: "DELETE",
@@ -82,8 +76,7 @@ const deleteRegistro = (URL_ID, id, entityDB, setterDB, setError, msg) => {
   }
 };
 
-const getOneRegister = (URL_ID, setLoading, setterDB, setError) => {
-  //Parametro registro es el obj registro del from.
+const getOneRecord = (URL_ID, setLoading, setterDB, setError) => {
   let options = {
     headers: {
       "content-type": "application/json",
@@ -102,4 +95,4 @@ const getOneRegister = (URL_ID, setLoading, setterDB, setError) => {
     });
 };
 
-export { createRegistro, updateRegistro, deleteRegistro, getOneRegister };
+export { createRecord, updateRecord, deleteRecord, getOneRecord };
