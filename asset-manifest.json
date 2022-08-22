@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/edilyrosa/FrontNuVector/static/css/main.1de6384f.css",
+    "main.js": "/edilyrosa/FrontNuVector/static/js/main.9fee5862.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/edilyrosa/FrontNuVector/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/techTwo.jpg": "/edilyrosa/FrontNuVector/static/media/techTwo.787b14cc23aca8ec27d9.jpg",
+    "static/media/nuvector-logo.jpg": "/edilyrosa/FrontNuVector/static/media/nuvector-logo.cfb83ea364eaa965971c.jpg",
+    "static/media/nuVector_favicon.ico": "/edilyrosa/FrontNuVector/static/media/nuVector_favicon.b67f5565a592218f6daf.ico",
+    "index.html": "/edilyrosa/FrontNuVector/index.html",
+    "main.1de6384f.css.map": "/edilyrosa/FrontNuVector/static/css/main.1de6384f.css.map",
+    "main.9fee5862.js.map": "/edilyrosa/FrontNuVector/static/js/main.9fee5862.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/edilyrosa/FrontNuVector/static/js/787.c4e7f8f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1de6384f.css",
+    "static/js/main.9fee5862.js"
+  ]
+}
