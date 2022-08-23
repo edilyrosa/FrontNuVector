@@ -41,7 +41,9 @@ const updateRecord = (
   fetch(URL_ID, options)
     .then((res) => (res.ok ? res.json() : Promise.reject(res)))
     .then((json) => {
+      console.log(json, json.id);
       let newDB = EntityDB.map((el) => (el.id === json.id ? json : el));
+      console.log(newDB);
       setterDB(newDB);
       console.log(`${msg}${json}`);
       setLoading(false);

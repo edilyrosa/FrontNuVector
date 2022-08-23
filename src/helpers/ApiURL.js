@@ -11,6 +11,7 @@ const URL_PROJECT_MORE_ID = process.env.REACT_APP_URL_PROJECT_MORE_ID;
 
 const URL_TASK = process.env.REACT_APP_URL_TASK;
 const URL_TASK_MORE_ID = process.env.REACT_APP_URL_TASK_MORE_ID;
+const URL_TASK_HOUR_MORE_ID = process.env.REACT_APP_URL_TASK_HOUR_MORE_ID;
 
 export {
   URL_CLIENT,
@@ -23,4 +24,5 @@ export {
   URL_CATEGORY,
   URL_TASK_MORE_ID,
   URL_CLIENT_ID,
+  URL_TASK_HOUR_MORE_ID,
 };
