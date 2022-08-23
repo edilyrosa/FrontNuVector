@@ -24,7 +24,7 @@ function Home({ notification }) {
       <br />
       <div className="w-full max-w-xs m-auto text-black"></div>
       <div className="TextHome shadow-md rounded px-8 pt-6 mb-4">
-        <h1>NOTIFICATIONS AND NEW.</h1>
+        <h1>NOTIFICATIONS AND NEWS.</h1>
         <span className="text-xl mb-4">
           welcome {user.displayName || user.email}
         </span>
