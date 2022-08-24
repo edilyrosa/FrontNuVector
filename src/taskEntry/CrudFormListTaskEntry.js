@@ -5,16 +5,7 @@ import {
   updateRecord,
   deleteRecord,
 } from "../helpers/CrudFuncions";
-import {
-  URL_CLIENT,
-  URL_PROJECT,
-  URL_CONTRACTOR,
-  URL_TASK,
-  URL_TASK_MORE_ID,
-  URL_PRODUCT,
-  URL_ACTIVITY,
-  URL_CATEGORY,
-} from "../helpers/ApiURL";
+import { URL_API } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../stylies/ComponentForm.css";
@@ -135,7 +126,7 @@ function CrudFormListTaskEntry() {
   //!get CLIENTS' table State Var clients
   useEffect(() => {
     setLoading(true);
-    fetch(URL_CLIENT)
+    fetch(URL_API + "/client")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
@@ -147,7 +138,7 @@ function CrudFormListTaskEntry() {
   //!Get PROJECTS' table  in State Var ProjectsDB
   useEffect(() => {
     setLoading(true);
-    fetch(URL_PROJECT)
+    fetch(URL_API + "/project")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProjectsDB(json);
@@ -159,7 +150,7 @@ function CrudFormListTaskEntry() {
   //!Get TASKENTRY' table  in State Var TaskEntriesDB
   useEffect(() => {
     setLoading(true);
-    fetch(URL_TASK)
+    fetch(URL_API + "/taskentry")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setTaskEntriesDB(json);
@@ -175,7 +166,7 @@ function CrudFormListTaskEntry() {
   //!get CONTRACTOR'S table
   useEffect(() => {
     setLoading(true); //show loader
-    fetch(URL_CONTRACTOR)
+    fetch(URL_API + "/contractor")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setContractorsDB(json);
@@ -187,7 +178,7 @@ function CrudFormListTaskEntry() {
   //!get PRODUCT'S table
   useEffect(() => {
     setLoading(true);
-    fetch(URL_PRODUCT)
+    fetch(URL_API + "/product")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProductDB(json);
@@ -199,7 +190,7 @@ function CrudFormListTaskEntry() {
   //!get ACTIVITY'S table
   useEffect(() => {
     setLoading(true);
-    fetch(URL_ACTIVITY)
+    fetch(URL_API + "/activity")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setActivitiesDB(json);
@@ -211,7 +202,7 @@ function CrudFormListTaskEntry() {
   //!get CATEGORY'S table
   useEffect(() => {
     setLoading(true);
-    fetch(URL_CATEGORY)
+    fetch(URL_API + "/category")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setCategoriesDB(json);
@@ -253,7 +244,7 @@ function CrudFormListTaskEntry() {
     //!Whiltout ID, is flag to make the POST()
     if (form.id === null) {
       createRecord(
-        URL_TASK,
+        URL_API + "/taskentry",
         { ...form, client_id: selectedProject.Client.id },
         setLoading,
         setTaskEntriesDB,
@@ -263,7 +254,7 @@ function CrudFormListTaskEntry() {
     } else {
       //!With ID, is flag to make the UPDATE()
       updateRecord(
-        `${URL_TASK_MORE_ID}${form.id}`,
+        `${URL_API}/taskentry/${form.id}`,
         form,
         taskEntriesDB,
         setTaskEntriesDB,
@@ -284,7 +275,7 @@ function CrudFormListTaskEntry() {
   //!Making the DELETE()
   const handleDelete = (id, el) => {
     deleteRecord(
-      `${URL_TASK_MORE_ID}${id}`,
+      `${URL_API}/taskentry/${id}`,
       id,
       taskEntriesDB,
       setTaskEntriesDB,

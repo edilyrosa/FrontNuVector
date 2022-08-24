@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../stylies/ComponentTable.css";
-import { URL_TASK } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
+import { URL_API } from "../helpers/ApiURL";
 
 function ListSearchTask(props) {
   const [taskEntriesDB, setTaskEntriesDB] = useState([]);
@@ -12,7 +12,7 @@ function ListSearchTask(props) {
   //!Get TASK' table in the VE taskEntryDB
   useEffect(() => {
     setLoading(true);
-    fetch(URL_TASK)
+    fetch(URL_API + "/taskentry")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setTaskEntriesDB(json);

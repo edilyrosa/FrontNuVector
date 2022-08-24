@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../stylies/ComponentTable.css";
-import { URL_PROJECT } from "../helpers/ApiURL";
+import { URL_API } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 import "../stylies/ComponenteSearch.css";
 
@@ -13,7 +13,7 @@ function ListSearchProject() {
   //!Get PROJECTS' table in the VE ProjectsDB
   useEffect(() => {
     setLoading(true); //show loader
-    fetch(URL_PROJECT) //Do Req
+    fetch(URL_API + '/project') //Do Req
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProjectsDB(json); //Set the ProjectsDB

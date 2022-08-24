@@ -4,7 +4,7 @@ import {
   updateRecord,
   deleteRecord,
 } from "../helpers/CrudFuncions";
-import { URL_CLIENT, URL_CLIENT_ID } from "../helpers/ApiURL";
+import { URL_API } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../stylies/ComponentForm.css";
@@ -106,7 +106,7 @@ function CrudFormListClient() {
   //!get CLIENTS' table State Var clients
   useEffect(() => {
     setLoading(true);
-    fetch(URL_CLIENT)
+    fetch(URL_API + "/client")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
@@ -141,7 +141,7 @@ function CrudFormListClient() {
     //!Whiltout ID, is flag to make the POST()
     if (form.id === null) {
       createRecord(
-        URL_CLIENT,
+        URL_API + "/client",
         form,
         setLoading,
         setClients,
@@ -151,7 +151,7 @@ function CrudFormListClient() {
     } else {
       //!With ID, is flag to make the UPDATE()
       updateRecord(
-        `${URL_CLIENT_ID}${form.id}`,
+        `${URL_API}/client/${form.id}`,
         form,
         clients,
         setClients,
@@ -171,7 +171,7 @@ function CrudFormListClient() {
   //!Making the DELETE()
   const handleDelete = (id, el) => {
     deleteRecord(
-      `${URL_CLIENT_ID}${id}`,
+      `${URL_API}/client/${id}`,
       id,
       clients,
       setClients,

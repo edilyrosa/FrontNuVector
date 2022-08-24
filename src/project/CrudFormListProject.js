@@ -5,11 +5,7 @@ import {
   updateRecord,
   deleteRecord,
 } from "../helpers/CrudFuncions";
-import {
-  URL_CLIENT,
-  URL_PROJECT,
-  URL_PROJECT_MORE_ID,
-} from "../helpers/ApiURL";
+import { URL_API } from "../helpers/ApiURL";
 import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../stylies/ComponentForm.css";
@@ -106,7 +102,7 @@ function CrudFormListProject() {
   //!get CLIENTS' table
   useEffect(() => {
     setLoading(true);
-    fetch(URL_CLIENT)
+    fetch(URL_API + "/client")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
@@ -118,7 +114,7 @@ function CrudFormListProject() {
   //!Get PROJECTS' table  in the VE ProjectsDB
   useEffect(() => {
     setLoading(true);
-    fetch(URL_PROJECT)
+    fetch(URL_API + "/project")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProjectsDB(json);
@@ -151,7 +147,7 @@ function CrudFormListProject() {
     //!Whiltout ID, is flag to make the POST()
     if (form.id === null) {
       createRecord(
-        URL_PROJECT,
+        URL_API + "/project",
         form,
         setLoading,
         setProjectsDB,
@@ -161,7 +157,7 @@ function CrudFormListProject() {
     } else {
       //!With ID, is flag to make the UPDATE()
       updateRecord(
-        `${URL_PROJECT_MORE_ID}${form.id}`,
+        `${URL_API}/project/${form.id}`,
         form,
         projectsDB,
         setProjectsDB,
@@ -182,7 +178,7 @@ function CrudFormListProject() {
   //!Making the DELETE()
   const handleDelete = (id, el) => {
     deleteRecord(
-      `${URL_PROJECT_MORE_ID}${id}`,
+      `${URL_API}/project/${id}`,
       id,
       projectsDB,
       setProjectsDB,

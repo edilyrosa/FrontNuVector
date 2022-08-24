@@ -3,11 +3,7 @@ import Loader from "../helpers/Loader";
 import Message from "../helpers/Message";
 import "../index";
 import "../stylies/ComponentForm.css";
-import {
-  URL_CLIENT,
-  URL_PROJECT,
-  URL_TASK_HOUR_MORE_ID,
-} from "../helpers/ApiURL";
+import { URL_API } from "../helpers/ApiURL";
 
 import {
   Chart as ChartJS,
@@ -44,7 +40,7 @@ export default function GraphBar() {
   //!get CLIENTS' table
   useEffect(() => {
     setLoading(true);
-    fetch(URL_CLIENT)
+    fetch(URL_API + "/client")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setClients(json);
@@ -56,7 +52,7 @@ export default function GraphBar() {
   //!Get PROJECTS' table  in the VE ProjectsDB
   useEffect(() => {
     setLoading(true);
-    fetch(URL_PROJECT)
+    fetch(URL_API + "/project")
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
         setProjectsDB(json);
@@ -90,10 +86,9 @@ export default function GraphBar() {
     if (!clientId) return;
     setLoading(true);
     // fetch(`http://localhost:5000/taskentry/hours/14`)
-    fetch(`${URL_TASK_HOUR_MORE_ID}${clientId}`)
+    fetch(`${URL_API}/taskentry/hours/${clientId}`)
       .then((res) => (res.ok ? res.json() : Promise.reject(res)))
       .then((json) => {
-        console.log("ENTRIES", json);
         setTaskEntriesDB(json);
         setError(null);
         setLoading(false);
