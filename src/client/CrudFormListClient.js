@@ -114,7 +114,8 @@ function CrudFormListClient() {
         setLoading(false);
       })
       .catch((err) => {
-        setClients(null);
+        //setClients(null);
+        console.log(err);
         setError(err);
       });
   }, []);

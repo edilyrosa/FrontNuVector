@@ -172,7 +172,7 @@ function CrudFormListProject() {
   const handleReset = (e) => {
     setForm(initialDB);
     setRecordToEdict(null);
-    e.target.checked = false;
+    //e.target.checked = false;
   };
 
   //!Making the DELETE()
